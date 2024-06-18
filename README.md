@@ -7,6 +7,17 @@ Example project for the article: [Efficiently Securing Web Applications Against 
 ### Running the project
 
 ```sh
+docker-compose up
+```
+
+```sh
+curl localhost:80/api/user
+curl localhost:80/api/user/1
+```
+
+### Running API project
+
+```sh
 cd api
 npm i
 npm start
@@ -16,3 +27,7 @@ npm start
 curl localhost:3000/api/user
 curl localhost:3000/api/user/1
 ```
+
+### Links
+
+- https://medium.com/@aedemirsen/load-balancing-with-docker-compose-and-nginx-b9077696f624

@@ -1,0 +1,22 @@
+version: '3'
+services:
+  api:
+    build: ./api   
+    environment:
+      - PORT=3000
+    deploy:
+      replicas: 2
+    networks:
+      - loadbalancing
+
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+    networks:
+      - loadbalancing
+    depends_on:
+      - api
+
+networks:
+  loadbalancing:
