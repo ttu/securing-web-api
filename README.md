@@ -1,2 +1,18 @@
-# securing-web-api
-In progress: How to efficiently secure web API agains denial-of-service attacks
+# Securing Web API
+
+[![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
+
+Example project for the article: [Efficiently Securing Web Applications Against Denial-of-Service Attacks](https://ttu.github.io/securing-web-app/)
+
+### Running the project
+
+```sh
+cd api
+npm i
+npm start
+```
+
+```sh
+curl localhost:3000/api/user
+curl localhost:3000/api/user/1
+```
