@@ -1,9 +1,8 @@
-const CACHE: Map<string, any> = new Map();
+import { cacheLocal } from './cache/cacheLocal';
+import { cacheRedis } from './cache/cacheRedis';
 
-export const add = <T>(key: string, value: T) => {
-  CACHE.set(key, value);
-};
+const cache = process.env.CACHE === 'redis' ? cacheRedis : cacheLocal;
 
-export const get = <T>(key: string): T | undefined => {
-  return CACHE.has(key) ? CACHE.get(key) : undefined;
-};
+export const add = <T>(key: string, value: T) => cache.add(key, value);
+
+export const get = <T>(key: string): Promise<T | undefined> => cache.get(key);

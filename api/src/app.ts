@@ -1,8 +1,15 @@
 import express, { Request, Response } from 'express';
 import { getUser, getUsers } from './service';
+import { startServer } from './cache/cacheRedis';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+if (process.env.CACHE === 'redis') {
+  startServer().then(() => {
+    console.log('Redis server started');
+  });
+}
 
 app.get('/', (req: Request, res: Response) => {
   return res.send('Hello World with TypeScript!');

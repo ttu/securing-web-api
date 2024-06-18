@@ -4,19 +4,39 @@ services:
     build: ./api   
     environment:
       - PORT=3000
+      - CACHE=redis
+      - REDIS_HOST=cache
+      - REDIS_PORT=6379
+    depends_on:
+      - cache
     deploy:
       replicas: 2
     networks:
-      - loadbalancing
+      - my_company_network
 
   nginx:
     build: ./nginx
     ports:
       - "80:80"
     networks:
-      - loadbalancing
+      - my_company_network
     depends_on:
       - api
 
+  cache:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning
+    volumes: 
+      - cache:/data
+    networks:
+      - my_company_network
+
 networks:
-  loadbalancing:
+  my_company_network:
+
+volumes:
+  cache:
+    driver: local

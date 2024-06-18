@@ -3,14 +3,14 @@ import * as db from './db';
 import * as cache from './cache';
 
 const cacheWrapper = async <T>(cacheKey: string, getData: () => Promise<T>) => {
-  const cached = cache.get<T>(cacheKey);
+  const cached = await cache.get<T>(cacheKey);
   if (cached) {
     console.log('Cache hit');
     return cached;
   }
 
   const data = await getData();
-  cache.add(cacheKey, data);
+  await cache.add(cacheKey, data);
   return data;
 };
 
