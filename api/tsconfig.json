@@ -3,12 +3,12 @@
     "target": "es6", // Set the JavaScript version for output files
     "module": "commonjs", // Use commonjs module system
     "outDir": "./dist", // Redirect output structure to the directory
-    "rootDir": "api/src", // Specify the root directory of input files
+    "rootDir": "./src", // Specify the root directory of input files
     "strict": true, // Enable all strict type-checking options
     "esModuleInterop": true, // Enables compilation of ECMAScript modules
     "skipLibCheck": true, // Skip type checking of all declaration files
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["api/src/**/*"], // Include all files in the src folder
-  "exclude": ["api/node_modules"] // Exclude the node_modules folder
+  "include": ["./src/**/*"], // Include all files in the src folder
+  "exclude": ["./node_modules"] // Exclude the node_modules folder
 }
