@@ -9,7 +9,8 @@ services:
       - REDIS_PORT=6379
     depends_on:
       cache:
-        condition: service_healthy
+        # use service_started instead of service_healthy to speed up the startup
+        condition: service_started
     deploy:
       replicas: 2
     networks:
@@ -28,7 +29,7 @@ services:
       - my_company_network
     depends_on:
       api:
-        condition: service_healthy
+        condition: service_started
   cache:
     image: redis:6.2-alpine
     restart: always
