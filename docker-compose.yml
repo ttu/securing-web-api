@@ -7,6 +7,9 @@ services:
       - CACHE=redis
       - REDIS_HOST=cache
       - REDIS_PORT=6379
+    # TODO: Expose port dynamically for each replica
+    # ports:
+    #   - "3000:3000"
     depends_on:
       cache:
         # use service_started instead of service_healthy to speed up the startup
