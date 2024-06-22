@@ -1,6 +1,7 @@
 import express, { Request, Response, Router } from 'express';
 import { startServer } from './cache/cacheRedis';
 import { router as usersRouter } from './features/users/routes';
+import { cacheMiddleware } from './cache/cacheMiddleware';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -10,6 +11,9 @@ if (process.env.CACHE === 'redis') {
     console.log('Redis server started');
   });
 }
+
+// NOTE: For authenticatiod routes, we should not cache the response
+app.use(cacheMiddleware(5));
 
 const apiRouter = Router();
 apiRouter.use('/users', usersRouter);
