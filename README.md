@@ -4,7 +4,25 @@
 
 Example project for the article: [Efficiently Securing Web Applications Against Denial-of-Service Attacks](https://ttu.github.io/securing-web-app/)
 
-### Running the project
+Purpose of the project is not to give thourough understainding of the infrastructure, but to provide a simple example for developers to get a grasp of the concept.
+
+## Infrastructure
+
+![Infrastructure](https://ttu.github.io/images/posts/securing-web-app/infrastructure.png)
+
+Implemented components:
+
+- [ ] WAF
+- [x] CDN
+- [ ] File Storage
+- [x] Load Balancer
+- [x] API
+- [x] Cache
+- [ ] Database
+
+## Setup
+
+### Running the project with Docker
 
 ```sh
 docker-compose up
@@ -15,6 +33,15 @@ Requests
 ```sh
 curl localhost:80/api/user
 curl localhost:80/api/user/1
+```
+
+### Exposed ports
+
+```txt
+8080: CDN
+80: Load Balancer
+3000: API
+6379: Redis
 ```
 
 ### Running API project
