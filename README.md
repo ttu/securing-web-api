@@ -28,13 +28,6 @@ Implemented components:
 docker-compose up
 ```
 
-Requests
-
-```sh
-curl localhost:80/api/user
-curl localhost:80/api/user/1
-```
-
 ### Exposed ports
 
 ```txt
@@ -44,7 +37,24 @@ curl localhost:80/api/user/1
 6379: Redis
 ```
 
+### Example Requests
+
+```sh
+curl localhost:80/api/users
+curl localhost:80/api/users/1
+
+curl localhost:3000/api/users
+curl localhost:3000/api/users/1
+```
+
 ### Running API project
+
+Start project with Redis cache
+
+```sh
+chmod +x ./api_local.sh
+./api_local.sh
+```
 
 Start project
 
@@ -52,20 +62,6 @@ Start project
 cd api
 npm i
 npm start
-```
-
-Start with Redis cache
-
-```sh
-chmod +x ./api_local.sh
-./api_local.sh
-```
-
-Requests
-
-```sh
-curl localhost:3000/api/user
-curl localhost:3000/api/user/1
 ```
 
 ### Links

@@ -1,6 +1,6 @@
-import express, { Request, Response } from 'express';
-import { getUser, getUsers } from './service';
+import express, { Request, Response, Router } from 'express';
 import { startServer } from './cache/cacheRedis';
+import { usersRouter } from './features/users/routes';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -11,19 +11,13 @@ if (process.env.CACHE === 'redis') {
   });
 }
 
+const apiRouter = Router();
+apiRouter.use('/users', usersRouter);
+
+app.use('/api', apiRouter);
+
 app.get('/', (req: Request, res: Response) => {
   return res.send('Hello World with TypeScript!');
-});
-
-app.get('/api/user', async (req: Request, res: Response) => {
-  const users = await getUsers();
-  return res.json(users);
-});
-
-app.get('/api/user/:id', async (req: Request, res: Response) => {
-  const id: number = parseInt(req.params.id);
-  const user = await getUser(id);
-  return user ? res.json(user) : res.status(404);
 });
 
 app.listen(PORT, () => {
