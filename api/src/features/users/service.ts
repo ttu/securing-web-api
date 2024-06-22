@@ -1,6 +1,6 @@
 import { UserInfo } from './types';
 import * as db from './db';
-import * as cache from '../../cache';
+import * as cache from '../../cache/cache';
 
 export const getUsers = async (): Promise<UserInfo[]> => getUsersCache();
 

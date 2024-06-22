@@ -4,8 +4,6 @@ import { createClient } from 'redis';
 const redisHost = process.env.REDIS_HOST || 'localhost';
 const redisPort = process.env.REDIS_PORT || 6379;
 
-const EXPIRATION_TIME_SEC = 10;
-
 const client = createClient({
   url: `redis://${redisHost}:${redisPort}`,
 });
@@ -16,8 +14,8 @@ export const startServer = async () => {
   await client.connect();
 };
 
-const addRedis = async <T>(key: string, value: T) =>
-  await client.set(key, JSON.stringify(value), { EX: EXPIRATION_TIME_SEC });
+const addRedis = async <T>(key: string, value: T, durationInSec: number) =>
+  await client.set(key, JSON.stringify(value), { EX: durationInSec });
 
 const getRedis = async <T>(key: string): Promise<T | undefined> => {
   const value = await client.get(key);
