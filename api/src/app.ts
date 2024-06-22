@@ -1,6 +1,6 @@
 import express, { Request, Response, Router } from 'express';
 import { startServer } from './cache/cacheRedis';
-import { usersRouter } from './features/users/routes';
+import { router as usersRouter } from './features/users/routes';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
