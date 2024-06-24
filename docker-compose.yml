@@ -27,7 +27,7 @@ services:
   load_balancer:
     build: ./load_balancer
     ports:
-      - "80:80"
+      - "8080:8080"
     networks:
       - my_company_network
     depends_on:
@@ -51,7 +51,7 @@ services:
   cdn:
     build: ./cdn
     ports:
-      - "8080:8080"
+      - "80:80"
     networks:
       - my_company_network
     volumes:

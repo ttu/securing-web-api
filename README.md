@@ -31,8 +31,8 @@ docker-compose up
 ### Exposed ports
 
 ```txt
-8080: CDN
-80: Load Balancer
+80: CDN
+8080: Load Balancer
 3000: API
 6379: Redis
 ```
