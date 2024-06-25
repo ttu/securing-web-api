@@ -14,15 +14,15 @@ export const startServer = async () => {
   await client.connect();
 };
 
-const addRedis = async <T>(key: string, value: T, durationInSec: number) =>
+const add = async <T>(key: string, value: T, durationInSec: number) =>
   await client.set(key, JSON.stringify(value), { EX: durationInSec });
 
-const getRedis = async <T>(key: string): Promise<T | undefined> => {
+const get = async <T>(key: string): Promise<T | undefined> => {
   const value = await client.get(key);
   return value ? JSON.parse(value) : undefined;
 };
 
 export const cacheRedis = {
-  add: addRedis,
-  get: getRedis,
+  add,
+  get,
 };
