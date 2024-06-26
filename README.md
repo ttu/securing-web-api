@@ -47,6 +47,14 @@ curl localhost:3000/api/users
 curl localhost:3000/api/users/1
 ```
 
+### Cache durations
+
+```txt
+CDN 10s
+Load Balancer 20s
+API 30s
+```
+
 ### Running API project
 
 Start project with Redis cache
@@ -62,6 +70,17 @@ Start project
 cd api
 npm i
 npm start
+```
+
+## Docker Compose commands
+
+```sh
+docker-compose up
+docker-compose up [service]
+docker-compose down
+docker-compose logs
+docker-compose build
+docker-compose restart load_balancer
 ```
 
 ### Links

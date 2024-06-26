@@ -7,7 +7,7 @@ services:
       - CACHE=redis
       - REDIS_HOST=cache
       - REDIS_PORT=6379
-    # TODO: Expose port dynamically for each replica
+    # Docker doesn't support dynamic ports for each replica out-of-the-box
     # ports:
     #   - "3000:3000"
     depends_on:
@@ -30,6 +30,8 @@ services:
       - "8080:8080"
     networks:
       - my_company_network
+    volumes:
+      - ./load_balancer/nginx.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       api:
         condition: service_started

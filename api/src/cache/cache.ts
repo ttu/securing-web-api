@@ -1,7 +1,7 @@
 import { cacheLocal } from './cacheLocal';
 import { cacheRedis } from './cacheRedis';
 
-const CACHE_DURATION_IN_SEC = 10;
+const CACHE_DURATION_IN_SEC = 30;
 
 const cache = process.env.CACHE === 'redis' ? cacheRedis : cacheLocal;
 
