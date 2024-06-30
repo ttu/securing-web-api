@@ -1,7 +1,7 @@
 import express, { Request, Response, Router } from 'express';
 import { rateLimit } from 'express-rate-limit';
 
-import { client, startServer } from './cache/cacheRedis';
+import { client, connectToServer } from './cache/cacheRedis';
 import { router as usersRouter } from './features/users/routes';
 import { cacheMiddleware } from './cache/cacheMiddleware';
 import RedisStore from 'rate-limit-redis';
@@ -12,8 +12,8 @@ const PORT = process.env.PORT || 3000;
 const useRedis = process.env.CACHE === 'redis';
 
 if (useRedis) {
-  startServer().then(() => {
-    console.log('Redis server started');
+  connectToServer().then(() => {
+    console.log('Connected to Redis');
   });
 }
 
@@ -30,7 +30,7 @@ const limiter = rateLimit({
 });
 
 // Apply the rate limiting middleware to all requests.
-app.use(limiter);
+// app.use(limiter);
 
 // NOTE: For authenticatiod routes, we should not cache the response
 app.use(cacheMiddleware(5));

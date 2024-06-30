@@ -4,13 +4,13 @@ import { createClient } from 'redis';
 const redisHost = process.env.REDIS_HOST || 'localhost';
 const redisPort = process.env.REDIS_PORT || 6379;
 
-export const client = createClient({
+const client = createClient({
   url: `redis://${redisHost}:${redisPort}`,
 });
 
 client.on('error', (err) => console.log('Redis Client Error', err));
 
-export const startServer = async () => {
+const connectToServer = async () => {
   await client.connect();
 };
 
@@ -22,7 +22,9 @@ const get = async <T>(key: string): Promise<T | undefined> => {
   return value ? JSON.parse(value) : undefined;
 };
 
-export const cacheRedis = {
+const cacheRedis = {
   add,
   get,
 };
+
+export { client, connectToServer, cacheRedis };
