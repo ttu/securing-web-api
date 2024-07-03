@@ -64,12 +64,23 @@ chmod +x ./api_local.sh
 ./api_local.sh
 ```
 
-Start project
+### Running load tests
+
+Load tests are implmented with [K6](https://k6.io/)
+
+Install [K6](https://grafana.com/docs/k6/latest/set-up/install-k6/). E.g.
 
 ```sh
-cd api
-npm i
-npm start
+# macOS
+brew install k6
+# Windows
+choco install k6
+```
+
+Execute the following command to run the load tests
+
+```sh
+k6 load-tests/get_users.js
 ```
 
 ## Docker Compose commands
