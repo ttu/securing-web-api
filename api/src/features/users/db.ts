@@ -1,12 +1,11 @@
 import { UserInfo } from './types';
+import { sleep } from '../../utils';
 
 const USERS: UserInfo[] = [
   { id: 1, name: 'Alice', age: 23 },
   { id: 2, name: 'Bob', age: 25 },
   { id: 3, name: 'Charlie', age: 28 },
 ];
-
-const sleep = () => new Promise((resolve) => setTimeout(resolve, 5000));
 
 export const getUsers = async () => {
   // const users = await db.query("SELECT * FROM users");

@@ -3,6 +3,7 @@ import { rateLimit } from 'express-rate-limit';
 
 import { client, connectToServer } from './cache/cacheRedis';
 import { router as usersRouter } from './features/users/routes';
+import { router as productsRouter } from './features/products/routes';
 import { cacheMiddleware } from './cache/cacheMiddleware';
 import RedisStore from 'rate-limit-redis';
 
@@ -39,6 +40,7 @@ app.set('etag', true);
 
 const apiRouter = Router();
 apiRouter.use('/users', usersRouter);
+apiRouter.use('/products', productsRouter);
 
 app.use('/api', apiRouter);
 
