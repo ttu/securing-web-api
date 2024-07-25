@@ -8,6 +8,9 @@ import { cacheMiddleware } from './cache/cacheMiddleware';
 import RedisStore from 'rate-limit-redis';
 
 const app = express();
+
+app.use(express.json());
+
 const PORT = process.env.PORT || 3000;
 
 const useRedis = process.env.CACHE === 'redis';

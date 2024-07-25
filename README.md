@@ -39,6 +39,42 @@ docker-compose up
 
 ### Example Requests
 
+Endpoints:
+
+```sh
+# Static file
+TODO
+
+### Endpoint where data does not change frequently
+# Data changes once per day, once per month etc.
+GET /products/
+GET /prices/
+
+### Endpoint to update data and invalidate cache
+# This endpoint updates the prices for the models
+# E.g. manual update of prices once per day
+# This could also be automated process
+POST /admin/prices
+
+
+### Authenticated endpoint
+# Get customer (own) orders
+GET /orders/
+# Create customer specific orders
+POST /orders/
+
+### Non-authenticated post endpoint
+# Same as authenticated, but without authentication
+POST /orders/
+
+### Endpoint with CPU expensive operation
+# Create reports of orders, users etc.
+GET /reports/
+
+```
+
+Requests:
+
 ```sh
 curl localhost:80/api/users
 curl localhost:80/api/users/1

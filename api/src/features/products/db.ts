@@ -30,3 +30,10 @@ export const getPrices = async () => {
 
   return Promise.resolve(PRODUCT_PRICES);
 };
+
+export const updatePrices = async (prices: ProductPrice[]): Promise<boolean> => {
+  console.log('DB - Update prices');
+  await sleep();
+
+  return Promise.resolve(true);
+};

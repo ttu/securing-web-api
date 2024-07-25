@@ -1,5 +1,6 @@
 import { Request, Response, Router } from 'express';
-import { getProducts, getPrices } from './service';
+import { getProducts, getPrices, updatePrices } from './service';
+// import { eventEmitter, Events } from './subscribers';
 
 export const router = Router();
 
@@ -14,5 +15,9 @@ router.get('/prices', async (req: Request, res: Response) => {
 });
 
 router.post('/admin/prices', async (req: Request, res: Response) => {
-  return res.status(501).send('Not implemented');
+  const priceUpdateData = req.body;
+  // eventEmitter.emit(Events.PRICE_UPDATE, priceUpdateData);
+  // return res.json(true);
+  const result = await updatePrices(priceUpdateData);
+  return res.json(result);
 });
