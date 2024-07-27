@@ -7,6 +7,11 @@ const add = <T>(key: string, value: T, durationInSec: number) => {
   return Promise.resolve(a);
 };
 
+const del = (key: string): Promise<boolean> => {
+  const result = memCache.del(key);
+  return Promise.resolve(result);
+};
+
 const get = <T>(key: string): Promise<T | undefined> => {
   const content: T | undefined = memCache.get(key);
   return Promise.resolve(content);
@@ -14,5 +19,6 @@ const get = <T>(key: string): Promise<T | undefined> => {
 
 export const cacheLocal = {
   add,
+  del,
   get,
 };

@@ -37,5 +37,9 @@ export const getPricesCached = async () => {
 
 export const updatePrices = async (prices: ProductPrice[]) => {
   console.log('Update prices', { dataReceived: prices });
-  return await db.updatePrices(prices);
+  const success = await db.updatePrices(prices);
+  if (success) {
+    const invalidateResult = await cache.del(PRICES_CACHE_KEY);
+    console.log('Prices cache invalidated', { result: invalidateResult });
+  }
 };

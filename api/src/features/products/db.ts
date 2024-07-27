@@ -32,7 +32,7 @@ export const getPrices = async () => {
 };
 
 export const updatePrices = async (prices: ProductPrice[]): Promise<boolean> => {
-  console.log('DB - Update prices');
+  console.log('DB - Update prices with slow operation');
   await sleep();
 
   return Promise.resolve(true);

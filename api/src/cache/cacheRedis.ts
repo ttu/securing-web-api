@@ -17,6 +17,11 @@ const connectToServer = async () => {
 const add = async <T>(key: string, value: T, durationInSec: number) =>
   await client.set(key, JSON.stringify(value), { EX: durationInSec });
 
+const del = async (key: string): Promise<boolean> => {
+  const result = await client.del(key);
+  return result === 1;
+};
+
 const get = async <T>(key: string): Promise<T | undefined> => {
   const value = await client.get(key);
   return value ? JSON.parse(value) : undefined;
@@ -24,6 +29,7 @@ const get = async <T>(key: string): Promise<T | undefined> => {
 
 const cacheRedis = {
   add,
+  del,
   get,
 };
 
