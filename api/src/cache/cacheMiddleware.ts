@@ -13,6 +13,8 @@ export const cacheMiddleware = (durationInSec: number) => {
     const cacheContent = await cache.get(key);
     if (cacheContent) {
       console.log('Cache hit from middleware');
+      // NOTE: For now we just assume that the cached content is JSON
+      res.setHeader('Content-Type', 'application/json');
       res.send(cacheContent);
       return;
     }
@@ -23,8 +25,6 @@ export const cacheMiddleware = (durationInSec: number) => {
     // @ts-ignore
     res.send = async (body: any) => {
       await cache.add(key, body, durationInSec);
-      // TODO: Fix the content type header
-      // res.setHeader('Content-Type', 'application/json');
       originalSend(body); // Call the original res.send method
     };
 
