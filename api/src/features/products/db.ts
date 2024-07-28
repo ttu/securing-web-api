@@ -9,7 +9,7 @@ const PRODUCTS: Product[] = [
   { id: 5, name: 'Xiaomi Redmi Note 6' },
 ];
 
-const PRODUCT_PRICES: ProductPrice[] = [
+let PRODUCT_PRICES: ProductPrice[] = [
   { productId: 1, price: 999, country: 'US' },
   { productId: 2, price: 899, country: 'US' },
   { productId: 3, price: 699, country: 'US' },
@@ -33,7 +33,8 @@ export const getPrices = async () => {
 
 export const updatePrices = async (prices: ProductPrice[]): Promise<boolean> => {
   console.log('DB - Update prices with slow operation');
-  await sleep();
+  await sleep(2000);
 
+  PRODUCT_PRICES = prices;
   return Promise.resolve(true);
 };
