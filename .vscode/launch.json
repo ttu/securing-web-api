@@ -7,12 +7,12 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Launch Program",
+      "name": "Launch API",
       "preLaunchTask": "tsc: build",
-      "program": "${workspaceFolder}/src/app.ts",
-      "outFiles": ["${workspaceFolder}/dist/**/*.js"],
+      "program": "${workspaceFolder}/api/src/app.ts",
+      "outFiles": ["${workspaceFolder}/api/dist/**/*.js"],
       "sourceMaps": true,
-      "cwd": "${workspaceFolder}",
+      "cwd": "${workspaceFolder}/api/",
       "env": {
         "NODE_ENV": "development",
         "CACHE": "local"
