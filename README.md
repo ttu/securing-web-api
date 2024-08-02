@@ -47,15 +47,14 @@ TODO
 
 ### Endpoint where data does not change frequently
 # Data changes once per day, once per month etc.
-GET /products/
-GET /prices/
+GET /products/details/
+GET /products/prices/
 
 ### Endpoint to update data and invalidate cache
 # This endpoint updates the prices for the models
 # E.g. manual update of prices once per day
 # This could also be automated process
-POST /admin/prices
-
+POST /products/admin/prices/
 
 ### Authenticated endpoint
 # Get customer (own) orders
@@ -67,7 +66,7 @@ POST /orders/
 # Same as authenticated, but without authentication
 POST /orders/
 
-### Endpoint with CPU expensive operation
+### Endpoint with CPU expensive operation that will block the server
 # Create reports of orders, users etc.
 GET /reports/
 

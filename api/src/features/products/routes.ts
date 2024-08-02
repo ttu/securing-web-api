@@ -4,7 +4,7 @@ import { getProducts, getPrices, updatePrices } from './service';
 
 export const router = Router();
 
-router.get('/', async (req: Request, res: Response) => {
+router.get('/details', async (req: Request, res: Response) => {
   const products = await getProducts();
   return res.json(products);
 });
@@ -20,4 +20,9 @@ router.post('/admin/prices', async (req: Request, res: Response) => {
   // return res.json(true);
   const result = await updatePrices(priceUpdateData);
   return res.json(result);
+});
+
+router.get('/catalog', async (req: Request, res: Response) => {
+  // TODO: This endpoint will return a product catalog with all product and current prices
+  return res.status(501).send('Not implemented');
 });
