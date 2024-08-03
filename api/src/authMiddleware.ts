@@ -15,7 +15,15 @@ export const authMiddleware = async (req: Request, res: Response, next: express.
     return res.status(401).send('Token is missing');
   }
 
-  // Verify token using JWT
+  // Token is a user ID
+  // Check that token is a number
+  if (isNaN(Number(token))) {
+    return res.status(401).send('Invalid token');
+  }
+
+  req.userId = parseInt(token);
+
+  // NOTE: In reality token should be verified using JWT
   //   try {
   //     const decoded = jwt.verify(token, 'wrong-secret');
   //     // TODO: Fetch user
