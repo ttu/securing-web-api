@@ -1,7 +1,7 @@
 import { Product, ProductPrice } from './types';
 import { sleep } from '../../utils';
 
-const PRODUCTS: Product[] = [
+export const PRODUCTS: Product[] = [
   { id: 1, name: 'iPhone X' },
   { id: 2, name: 'Samsung S11' },
   { id: 3, name: 'OnePlus 4' },
@@ -9,7 +9,7 @@ const PRODUCTS: Product[] = [
   { id: 5, name: 'Xiaomi Redmi Note 6' },
 ];
 
-let PRODUCT_PRICES: ProductPrice[] = [
+export let PRODUCT_PRICES: ProductPrice[] = [
   { productId: 1, price: 999, country: 'US' },
   { productId: 2, price: 899, country: 'US' },
   { productId: 3, price: 699, country: 'US' },
