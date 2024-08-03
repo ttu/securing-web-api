@@ -3,8 +3,8 @@ import * as cache from './cache';
 
 export const cacheMiddleware = (durationInSec: number) => {
   return async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    // NOTE: For authenticatiod routes, we should not cache the response
-    if (req.method === 'POST') {
+    // Skip caching for authenticated routes and POST requests
+    if (req.headers.authorization || req.method === 'POST') {
       next();
       return;
     }
