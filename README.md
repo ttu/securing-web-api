@@ -63,8 +63,8 @@ GET /orders/
 POST /orders/
 
 ### Non-authenticated post endpoint
-# Same as authenticated, but without authentication
-POST /orders/
+# Send message to customer support
+POST /support/messages
 
 ### Endpoint with CPU expensive operation that will block the server
 # Create reports of orders, users etc.

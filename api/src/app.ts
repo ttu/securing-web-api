@@ -5,6 +5,7 @@ import { client, connectToServer } from './cache/cacheRedis';
 import { router as usersRouter } from './features/users/routes';
 import { router as productsRouter } from './features/products/routes';
 import { router as reportsRouter } from './features/reports/routes';
+import { router as supportRouter } from './features/support/routes';
 import { cacheMiddleware } from './cache/cacheMiddleware';
 import RedisStore from 'rate-limit-redis';
 
@@ -46,6 +47,7 @@ const apiRouter = Router();
 apiRouter.use('/users', usersRouter);
 apiRouter.use('/products', productsRouter);
 apiRouter.use('/reports', reportsRouter);
+apiRouter.use('/support', supportRouter);
 
 app.use('/api', apiRouter);
 
