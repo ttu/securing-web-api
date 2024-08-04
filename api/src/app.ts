@@ -1,5 +1,6 @@
 import express, { Request, Response, Router } from 'express';
 import { rateLimit } from 'express-rate-limit';
+import RedisStore from 'rate-limit-redis';
 
 import { client, connectToServer } from './cache/cacheRedis';
 import { router as usersRouter } from './features/users/routes';
@@ -7,7 +8,7 @@ import { router as productsRouter } from './features/products/routes';
 import { router as reportsRouter } from './features/reports/routes';
 import { router as supportRouter } from './features/support/routes';
 import { cacheMiddleware } from './cache/cacheMiddleware';
-import RedisStore from 'rate-limit-redis';
+import { userBlockingkMiddleware } from './userBlockingMiddleware';
 
 const app = express();
 
@@ -37,6 +38,8 @@ const limiter = rateLimit({
 
 // Apply the rate limiting middleware to all requests.
 // app.use(limiter);
+
+app.use(userBlockingkMiddleware);
 
 // NOTE: For authenticatiod routes, we should not cache the response
 app.use(cacheMiddleware(5));

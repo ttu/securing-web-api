@@ -1,7 +1,7 @@
-import express from 'express';
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
+import { isUserBlocked } from './userBlockingMiddleware';
 
-export const authMiddleware = async (req: Request, res: Response, next: express.NextFunction) => {
+export const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers['authorization'];
 
   if (!authHeader) {
@@ -31,6 +31,10 @@ export const authMiddleware = async (req: Request, res: Response, next: express.
   //   } catch (err) {
   //     return res.status(403).send('Invalid token');
   //   }
+
+  if (isUserBlocked(req.userId)) {
+    return res.status(403).send('User is blocked');
+  }
 
   next();
 };
