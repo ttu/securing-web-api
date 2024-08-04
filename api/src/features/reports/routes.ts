@@ -1,6 +1,6 @@
 import { Request, Response, Router } from 'express';
 import { blockingSleep } from '../../utils';
-import { authMiddleware } from '../../authMiddleware';
+import { authMiddleware } from '../../middlewares/authMiddleware';
 
 export const router = Router();
 

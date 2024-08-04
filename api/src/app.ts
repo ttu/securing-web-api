@@ -8,7 +8,7 @@ import { router as productsRouter } from './features/products/routes';
 import { router as reportsRouter } from './features/reports/routes';
 import { router as supportRouter } from './features/support/routes';
 import { cacheMiddleware } from './cache/cacheMiddleware';
-import { userBlockingkMiddleware } from './userBlockingMiddleware';
+import { userBlockingkMiddleware } from './middlewares/userBlockingMiddleware';
 
 const app = express();
 

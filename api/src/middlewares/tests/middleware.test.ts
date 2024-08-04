@@ -1,8 +1,8 @@
 import request from 'supertest';
 import { request as expressRequest } from 'express';
-import app from '../app';
+import app from '../../app';
 
-describe('Middleware tests', () => {
+describe('User blocking middleware tests', () => {
   it('Blocking user', async () => {
     // Any authenticated endpoint. User 10 is blocked.
     const userId = '10';

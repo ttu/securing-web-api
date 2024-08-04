@@ -1,8 +1,8 @@
-import express from 'express';
+import { NextFunction, Request, Response } from 'express';
 import * as cache from './cache';
 
 export const cacheMiddleware = (durationInSec: number) => {
-  return async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  return async (req: Request, res: Response, next: NextFunction) => {
     // Skip caching for authenticated routes and POST requests
     if (req.headers.authorization || req.method === 'POST') {
       next();
