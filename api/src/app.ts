@@ -7,6 +7,7 @@ import { router as usersRouter } from './features/users/routes';
 import { router as productsRouter } from './features/products/routes';
 import { router as reportsRouter } from './features/reports/routes';
 import { router as supportRouter } from './features/support/routes';
+import { router as ordersRouter } from './features/orders/routes';
 import { cacheMiddleware } from './cache/cacheMiddleware';
 import { userBlockingkMiddleware } from './middlewares/userBlockingMiddleware';
 
@@ -51,6 +52,7 @@ apiRouter.use('/users', usersRouter);
 apiRouter.use('/products', productsRouter);
 apiRouter.use('/reports', reportsRouter);
 apiRouter.use('/support', supportRouter);
+apiRouter.use('/orders', ordersRouter);
 
 app.use('/api', apiRouter);
 

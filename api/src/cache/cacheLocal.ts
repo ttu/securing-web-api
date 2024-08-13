@@ -3,7 +3,9 @@ import memoryCache from 'memory-cache';
 const memCache = new memoryCache.Cache<string, any>();
 
 const add = <T>(key: string, value: T, durationInSec: number) => {
-  const a = memCache.put(key, value, durationInSec * 1000);
+  // Create a deep copy of the value using JSON serialization
+  const deepCopyValue = JSON.parse(JSON.stringify(value));
+  const a = memCache.put(key, deepCopyValue, durationInSec * 1000);
   return Promise.resolve(a);
 };
 
