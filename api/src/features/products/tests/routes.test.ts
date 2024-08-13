@@ -11,4 +11,23 @@ describe('Products route', () => {
     const res = await request(app).get('/api/products/prices');
     expect(res.body).toEqual(db.PRODUCT_PRICES);
   });
+  it('POST /admin/prices - invalid payload', async () => {
+    const payload = { productId: 1, price: 100 };
+    const token = '1';
+    const res = await request(app)
+      .post('/api/products/admin/prices')
+      .send(payload)
+      .set('Authorization', `Bearer ${token}`);
+    expect(res.status).toEqual(400);
+  });
+
+  it('POST /admin/prices - valid payload', async () => {
+    const payload = [{ productId: 1, price: 100 }];
+    const token = '1';
+    const res = await request(app)
+      .post('/api/products/admin/prices')
+      .send(payload)
+      .set('Authorization', `Bearer ${token}`);
+    expect(res.status).toEqual(400);
+  });
 });

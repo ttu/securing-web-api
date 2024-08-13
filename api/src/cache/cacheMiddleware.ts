@@ -24,7 +24,11 @@ export const cacheMiddleware = (durationInSec: number) => {
 
     // @ts-ignore
     res.send = async (body: any) => {
-      await cache.add(key, body, durationInSec);
+      // Cache only successful responses
+      if (res.statusCode < 400) {
+        await cache.add(key, body, durationInSec);
+      }
+
       originalSend(body); // Call the original res.send method
     };
 
