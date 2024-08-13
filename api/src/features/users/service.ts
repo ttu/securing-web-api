@@ -35,7 +35,7 @@ const getUsersWithoutCacheWrapper = async (): Promise<UserInfo[]> => {
     return cachedUsers;
   }
   const users = await db.getUsers();
-  cache.add(cacheKey, users);
+  await cache.add(cacheKey, users);
   return users;
 };
 
@@ -47,6 +47,6 @@ const getUserWithoutCacheWrapper = async (id: number): Promise<UserInfo | undefi
     return cachedUser;
   }
   const user = await db.getUser(id);
-  cache.add(cacheKey, user);
+  await cache.add(cacheKey, user);
   return user;
 };

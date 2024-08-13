@@ -21,7 +21,7 @@ const getProductsWithoutCacheWrapper = async (): Promise<Product[]> => {
     return cachedProducts;
   }
   const users = await db.getProducts();
-  cache.add(PRODUCTS_CACHE_KEY, users);
+  await cache.add(PRODUCTS_CACHE_KEY, users);
   return users;
 };
 
