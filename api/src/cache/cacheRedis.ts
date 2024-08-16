@@ -14,8 +14,10 @@ const connectToServer = async () => {
   await client.connect();
 };
 
-const add = async <T>(key: string, value: T, durationInSec: number) =>
-  await client.set(key, JSON.stringify(value), { EX: durationInSec });
+const add = async <T>(key: string, value: T, durationInSec: number): Promise<boolean> => {
+  const results = await client.set(key, JSON.stringify(value), { EX: durationInSec });
+  return results === 'OK';
+};
 
 const del = async (key: string): Promise<boolean> => {
   const result = await client.del(key);
