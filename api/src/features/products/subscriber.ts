@@ -1,5 +1,6 @@
 // In real system we would subscribe to a message broker like RabbitMQ, AWS SMS etc.
 import { EventEmitter } from 'events';
+
 import { updatePrices } from './service';
 import { ProductPrice } from './types';
 

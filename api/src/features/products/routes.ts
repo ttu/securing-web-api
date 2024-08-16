@@ -1,4 +1,5 @@
 import { Request, Response, Router } from 'express';
+
 import { getProducts, getPrices, updatePrices } from './service';
 import { ProductPrice } from './types';
 import { authMiddleware } from '../../middlewares/authMiddleware';

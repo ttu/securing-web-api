@@ -1,4 +1,5 @@
 import { Request, Response, Router } from 'express';
+
 import { getUser, getUsers } from './service';
 
 export const router = Router();

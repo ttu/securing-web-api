@@ -2,22 +2,22 @@ import express, { Request, Response, Router } from 'express';
 import { rateLimit } from 'express-rate-limit';
 import RedisStore from 'rate-limit-redis';
 
+import { cacheMiddleware } from './cache/cacheMiddleware';
 import { client, connectToServer } from './cache/cacheRedis';
-import { router as usersRouter } from './features/users/routes';
+import { router as ordersRouter } from './features/orders/routes';
 import { router as productsRouter } from './features/products/routes';
 import { router as reportsRouter } from './features/reports/routes';
 import { router as supportRouter } from './features/support/routes';
-import { router as ordersRouter } from './features/orders/routes';
-import { cacheMiddleware } from './cache/cacheMiddleware';
+import { router as usersRouter } from './features/users/routes';
 import { userBlockingkMiddleware } from './middlewares/userBlockingMiddleware';
-
-const app = express();
-
-app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
 
 const useRedis = process.env.CACHE === 'redis';
+
+const app = express();
+
+app.use(express.json());
 
 if (useRedis) {
   connectToServer().then(() => {
@@ -42,7 +42,7 @@ const limiter = rateLimit({
 
 app.use(userBlockingkMiddleware);
 
-// NOTE: For authenticatiod routes, we should not cache the response
+// NOTE: cacheMiddleware should be applied per route
 app.use(cacheMiddleware(5));
 
 app.set('etag', true);

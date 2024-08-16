@@ -1,5 +1,6 @@
-import request from 'supertest';
 import { request as expressRequest } from 'express';
+import request from 'supertest';
+
 import app from '../../app';
 
 describe('User blocking middleware tests', () => {

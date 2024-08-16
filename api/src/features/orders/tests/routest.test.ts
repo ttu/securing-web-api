@@ -1,8 +1,8 @@
 import request from 'supertest';
+
 import app from '../../../app';
 import * as db from '../db';
 import { Order } from '../types';
-import exp from 'constants';
 
 describe('Orders route', () => {
   beforeEach(() => {
@@ -39,6 +39,7 @@ describe('Orders route', () => {
 
     // Should still have only 1 order
     const res2 = await request(app).post('/api/orders').set('Authorization', `Bearer ${token}`).send(payload);
+    expect(res2.status).toEqual(200);
     expect(db.ORDERS.filter((o) => o.customerId === 50).length).toEqual(1);
   });
 

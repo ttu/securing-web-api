@@ -1,7 +1,7 @@
-import * as cache from '../../cache/cache';
-import { cacheWrapper } from '../../cache/utils';
 import * as db from './db';
 import { Order, idempotencyKey, StoredOrder } from './types';
+import * as cache from '../../cache/cache';
+import { cacheWrapper } from '../../cache/utils';
 
 const ORDERS_CACHE_KEY = 'orders';
 const ORDERS_IDEMPOTENCY_KEY = 'orders_idempotency';

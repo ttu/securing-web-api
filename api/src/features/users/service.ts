@@ -1,5 +1,5 @@
-import { UserInfo } from './types';
 import * as db from './db';
+import { UserInfo } from './types';
 import * as cache from '../../cache/cache';
 import { cacheWrapper } from '../../cache/utils';
 

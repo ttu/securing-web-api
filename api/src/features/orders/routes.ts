@@ -1,7 +1,8 @@
 import { Request, Response, Router } from 'express';
+
 import { createOrder, getOrders } from './service';
-import { authMiddleware } from '../../middlewares/authMiddleware';
 import { Order } from './types';
+import { authMiddleware } from '../../middlewares/authMiddleware';
 
 export const router = Router();
 

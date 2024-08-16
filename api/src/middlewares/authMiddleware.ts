@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+
 import { isUserBlocked } from './userBlockingMiddleware';
 
 export const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
