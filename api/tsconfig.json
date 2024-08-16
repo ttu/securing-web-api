@@ -9,8 +9,8 @@
     "skipLibCheck": true, // Skip type checking of all declaration files
     "forceConsistentCasingInFileNames": true,
     "sourceMap": true, // Generates corresponding .map files
-    "typeRoots": ["./node_modules/@types", "./src/types"]
+    "typeRoots": ["./types", "./node_modules/@types"]
   },
-  "include": ["./src/**/*"], // Include all files in the src folder
+  "include": ["src/**/*.ts", "types/**/*.d.ts"],
   "exclude": ["./node_modules"] // Exclude the node_modules folder
 }
