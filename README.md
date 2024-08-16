@@ -2,7 +2,7 @@
 
 [![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 
-Example project for the article: [Efficiently Securing Web Applications Against Denial-of-Service Attacks](https://ttu.github.io/securing-web-app/)
+Example project for the article: [Efficiently Securing Web Applications Against High User Peaks and Denial-of-Service Attacks](https://ttu.github.io/securing-web-app/)
 
 Purpose of the project is not to give thourough understainding of the infrastructure, but to provide a simple example for developers to get a grasp of the concept.
 
@@ -25,7 +25,7 @@ Implemented components:
 ### Running the project with Docker
 
 ```sh
-docker-compose up
+docker compose up
 ```
 
 ### Exposed ports
@@ -121,12 +121,13 @@ k6 load-tests/get_users.js
 ## Docker Compose commands
 
 ```sh
-docker-compose up
-docker-compose up [service]
-docker-compose down
-docker-compose logs
-docker-compose build
-docker-compose restart load_balancer
+docker compose up
+docker compose down
+docker compose logs
+docker compose build
+docker compose restart
+docker compose up [service]
+docker compose restart load_balancer
 ```
 
 ### Links

@@ -19,6 +19,14 @@ const app = express();
 
 app.use(express.json());
 
+// Request logging
+app.use((req, res, next) => {
+  const { method, url } = req;
+  const timestamp = new Date().toISOString();
+  console.log(`[${timestamp}] ${method} ${url}`);
+  next();
+});
+
 if (useRedis) {
   connectToServer().then(() => {
     console.log('Connected to Redis');
@@ -41,6 +49,11 @@ const limiter = rateLimit({
 // app.use(limiter);
 
 app.use(userBlockingkMiddleware);
+
+// Health check
+app.get('/health', (req: Request, res: Response) => {
+  return res.send('OK');
+});
 
 // NOTE: cacheMiddleware should be applied per route
 app.use(cacheMiddleware(5));
