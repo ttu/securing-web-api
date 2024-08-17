@@ -8,3 +8,9 @@ export type ProductPrice = {
   price: number;
   country: string;
 };
+
+export type ProductForCountryCatalog = {
+  id: number;
+  name: string;
+  price: number;
+};

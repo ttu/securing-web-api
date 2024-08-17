@@ -1,6 +1,6 @@
 import { Request, Response, Router } from 'express';
 
-import { getProducts, getPrices, updatePrices } from './service';
+import { getProducts, getPrices, updatePrices, getCatalog } from './service';
 import { ProductPrice } from './types';
 import { authMiddleware } from '../../middlewares/authMiddleware';
 // import { eventEmitter, Events } from './subscribers';
@@ -29,9 +29,10 @@ router.post('/admin/prices', authMiddleware, async (req: Request, res: Response)
   return res.json(result);
 });
 
-router.get('/catalog', async (req: Request, res: Response) => {
-  // TODO: This endpoint will return a product catalog with all product and current prices
-  return res.status(501).send('Not implemented');
+router.get('/catalog/:country', async (req: Request, res: Response) => {
+  const { country } = req.params;
+  const catalog = await getCatalog(country);
+  return res.json(catalog);
 });
 
 const isValidPriceData = (data: ProductPrice[]) => {
