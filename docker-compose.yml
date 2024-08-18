@@ -18,6 +18,11 @@ services:
       replicas: 2
     networks:
       - my_company_network
+    # Comment volumes and command if prefer to use "production" system
+    volumes:
+      - ./api:/usr/src/app        # Mount local code to container
+      - /usr/src/app/node_modules # Prevent node_modules from being overwritten
+    command: npm run start        # Start with nodemon
     healthcheck:
       test: wget --no-verbose --tries=1 --spider http://localhost:3000/health || exit 1
       start_period: 10s
