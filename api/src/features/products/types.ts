@@ -14,3 +14,19 @@ export type ProductForCountryCatalog = {
   name: string;
   price: number;
 };
+
+export const isValidPriceData = (data: ProductPrice[]) => {
+  return (
+    data.length > 0 &&
+    data.every(
+      ({ productId, price, country, ...extra }) =>
+        typeof productId === 'number' &&
+        productId > 0 &&
+        typeof price === 'number' &&
+        price > 0 &&
+        typeof country === 'string' &&
+        country.trim() !== '' &&
+        Object.keys(extra).length === 0 // No extra properties
+    )
+  );
+};
