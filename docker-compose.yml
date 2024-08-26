@@ -7,12 +7,19 @@ services:
       - CACHE=redis
       - REDIS_HOST=cache
       - REDIS_PORT=6379
+      - PG_USER=postgres
+      - PG_PASSWORD=mysecretpassword
+      - PG_HOST=db
+      - PG_PORT=5432
+      - PG_DATABASE=securing-api
     # Docker doesn't support dynamic ports for each replica out-of-the-box
     # ports:
     #   - "3000:3000"
     depends_on:
       cache:
         # use service_started instead of service_healthy to speed up the startup
+        condition: service_started
+      db:
         condition: service_started
     deploy:
       replicas: 2
@@ -55,6 +62,25 @@ services:
       interval: 30s
       timeout: 2s
       retries: 10
+  db:
+    image: postgres:16.4-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=mysecretpassword
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_DB=securing-api
+    ports:
+      - '5432:5432'
+    networks:
+      - my_company_network
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./db/init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 2s
+      retries: 10
   cdn:
     build: ./cdn
     ports:
@@ -91,3 +117,4 @@ networks:
 volumes:
   cache:
     driver: local
+  db-data:

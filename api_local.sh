@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Start Redis service with Docker Compose in detached mode
-docker-compose up -d cache
+# Start DB and Redis service with Docker Compose in detached mode
+docker-compose up -d db cache
 
 # Navigate to the api directory and run npm start
 cd api
