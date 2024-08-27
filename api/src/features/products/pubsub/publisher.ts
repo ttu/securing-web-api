@@ -1,4 +1,4 @@
-import { connectToServer, publishMessage } from '../../../pubsub/publisherRedis';
+import { connectToServer, disconnectFromServer, publishMessage } from '../../../pubsub/publisherRedis';
 
 const payload = [{ productId: 1, price: 100 }];
 
@@ -8,4 +8,7 @@ const payload = [{ productId: 1, price: 100 }];
 
   const res = await publishMessage('price-update', payload);
   console.log('Message published:', res);
+
+  await disconnectFromServer();
+  console.log('Disconnected from Redis server');
 })();

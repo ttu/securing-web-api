@@ -1,4 +1,4 @@
-import { connectToServer, subscribeToChannel } from '../../../pubsub/subscriberRedis';
+import { connectToServer, subscribeToQueue } from '../../../pubsub/subscriberRedis';
 import { updatePrices } from '../service';
 
 (async () => {
@@ -8,5 +8,5 @@ import { updatePrices } from '../service';
   const handler = async (msg: string) => {
     await updatePrices(JSON.parse(msg));
   };
-  subscribeToChannel('price-update', handler);
+  subscribeToQueue('price-update', handler);
 })();

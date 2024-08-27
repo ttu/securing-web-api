@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon ./src/app.ts",
-    "start:publisher": "nodemon ./src/features/products/pubsub/publisher.ts",
+    "start:publisher": "ts-node ./src/features/products/pubsub/publisher.ts",
     "start:subscriber": "nodemon ./src/features/products/pubsub/subscriber.ts",
     "build": "tsc",
     "serve": "node dist/app.js",
