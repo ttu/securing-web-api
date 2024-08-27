@@ -14,11 +14,11 @@ Implemented components:
 
 - [ ] WAF
 - [x] CDN
-- [ ] File Storage
+- [x] File Storage
 - [x] Load Balancer
 - [x] API
 - [x] Cache
-- [ ] Database
+- [x] Database
 
 ## Setup
 
@@ -36,6 +36,8 @@ docker compose up
 3000: API
 6379: Redis
 ```
+
+When API has multiple instances, exposed ports do not work with current configuration.
 
 ### Example Requests
 
@@ -75,11 +77,16 @@ GET /reports/
 Requests:
 
 ```sh
+# CDN
 curl localhost:80/api/users
 curl localhost:80/api/users/1
 
+# API
 curl localhost:3000/api/users
 curl localhost:3000/api/users/1
+
+# Static files from S3
+http://localhost:80/s3/index.html
 ```
 
 ### Cache durations
@@ -123,6 +130,7 @@ k6 load-tests/get_users.js
 ```sh
 docker compose up
 docker compose down
+docker compose down --volumes
 docker compose logs
 docker compose build
 docker compose restart

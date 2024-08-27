@@ -13,3 +13,7 @@ INSERT INTO messages (message, sender, timestamp, ip) VALUES
 ('This is a test message.', 'Bob', 1628090460000, '10.0.0.2'),
 ('Another example message.', 'Charlie', 1628090520000, '192.168.1.2'),
 ('Yet another message.', 'Dave', 1628090580000, '10.0.0.3');
+
+-- Create user for replication
+CREATE USER replicator WITH REPLICATION ENCRYPTED PASSWORD 'replicator_password';
+SELECT pg_create_physical_replication_slot('replication_slot');

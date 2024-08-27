@@ -75,12 +75,51 @@ services:
       - my_company_network
     volumes:
       - db-data:/var/lib/postgresql/data
-      - ./db/init:/docker-entrypoint-initdb.d
+      - ./db/init/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./db/conf/pg_hba.conf:/etc/postgresql/pg_hba.conf
+      - ./db/conf/postgresql.conf:/etc/postgresql/postgresql.conf
+    command: ["-c", "config_file=/etc/postgresql/postgresql.conf"]
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 30s
       timeout: 2s
       retries: 10
+  db-replica:
+    image: postgres:16.4-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=mysecretpassword
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_DB=securing-api
+      - PGUSER=replicator
+      - PGPASSWORD=replicator_password
+    ports:
+      - '5433:5432'
+    networks:
+      - my_company_network
+    volumes:
+      - db-replica-data:/var/lib/postgresql/data
+    user: postgres  # Run everything as the postgres user
+    command: |
+      bash -c "
+      until pg_basebackup --pgdata=/var/lib/postgresql/data -R --slot=replication_slot --host=db --port=5432
+      do
+      echo 'Waiting for primary to connect...'
+      sleep 1s
+      done
+      echo 'Backup done, starting replica...'
+
+      chmod 0700 /var/lib/postgresql/data
+      # Set listen_addresses to allow connections from all interfaces
+      echo \"listen_addresses='*'\" >> /var/lib/postgresql/data/postgresql.conf
+      
+      # Allow connections from the host in pg_hba.conf
+      echo \"host all all 0.0.0.0/0 md5\" >> /var/lib/postgresql/data/pg_hba.conf
+      
+      postgres
+      "
+    depends_on:
+      - db
   cdn:
     build: ./cdn
     ports:
@@ -118,3 +157,4 @@ volumes:
   cache:
     driver: local
   db-data:
+  db-replica-data:
