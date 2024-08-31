@@ -75,7 +75,7 @@ const getCatalogCached = async (country: string): Promise<ProductForCountryCatal
 
 export const updatePrices = async (prices: ProductPrice[]) => {
   console.log('Update prices', { dataReceived: prices });
-  const success = await db.updatePrices(prices);
+  const success = await db.insertPrices(prices);
   if (success) {
     const invalidateResult = await cache.del(PRICES_CACHE_KEY);
     console.log('Prices cache invalidated', { result: invalidateResult });
