@@ -1,7 +1,7 @@
 import { Request, Response, Router } from 'express';
 
 import { createOrder, getOrders } from './service';
-import { Order } from './types';
+import { isValidOrderDtoJson, OrderDto } from './types';
 import { authMiddleware } from '../../middlewares/authMiddleware';
 
 export const router = Router();
@@ -14,7 +14,9 @@ router.get('/', authMiddleware, async (req: Request, res: Response) => {
 
 router.post('/', authMiddleware, async (req: Request, res: Response) => {
   const userId = req.userId!;
-  const orderData: Order = req.body;
+  const orderData: OrderDto = req.body;
+
+  if (!isValidOrderDtoJson(orderData)) return res.status(400).json({ error: 'Invalid order data' });
 
   const order = await createOrder(userId, orderData);
   return res.json(order);
