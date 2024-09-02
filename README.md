@@ -138,6 +138,12 @@ docker compose up [service]
 docker compose restart load_balancer
 ```
 
+Tail PostgreSQL logs
+
+```sh
+docker exec -it securing-web-api-db-1 tail -f /var/lib/postgresql/data/pg_log/postgresql-2024-09-02.log
+```
+
 ### Links
 
 - https://medium.com/@aedemirsen/load-balancing-with-docker-compose-and-nginx-b9077696f624
