@@ -18,10 +18,6 @@ const MOCK_ORDERS: StoredOrder[] = [
 ];
 
 describe('Orders route', () => {
-  beforeEach(() => {});
-
-  afterEach(() => {});
-
   it('GET /', async () => {
     jest.spyOn(db, 'getOrders').mockResolvedValueOnce(MOCK_ORDERS);
 

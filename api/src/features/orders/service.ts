@@ -1,9 +1,10 @@
 import * as db from './db';
-import { OrderDto, idempotencyKey, Order, StoredOrder } from './types';
+import { OrderDto, idempotencyKey, Order, StoredOrder, ProductInfo } from './types';
 import * as cache from '../../cache/cache';
 import { cacheWrapper } from '../../cache/utils';
 
 const ORDERS_CACHE_KEY = 'orders';
+const PRODUCTS_PRICES_CACHE_KEY = 'product_prices';
 const ORDERS_IDEMPOTENCY_KEY = 'orders_idempotency';
 
 export const getOrders = async (customerId: number): Promise<StoredOrder[]> => {
@@ -22,7 +23,7 @@ export const createOrder = async (customerId: number, orderDto: OrderDto): Promi
   await db.createCustomerOrder(customerId, order);
 
   // Customer can't make same order again in 20 sec
-  await cache.add(`${ORDERS_IDEMPOTENCY_KEY}_${key}`, true, 100);
+  await cache.add(`${ORDERS_IDEMPOTENCY_KEY}_${key}`, true, 20);
 
   const invalidateResult = await cache.del(`${ORDERS_CACHE_KEY}_${customerId}`);
   console.log('Order cache invalidated from customer', { result: invalidateResult, customerId });
@@ -30,19 +31,21 @@ export const createOrder = async (customerId: number, orderDto: OrderDto): Promi
   return true;
 };
 
-const createOrderFromDto = async (customerId: number, orderDto: OrderDto): Promise<Order> => {
-  const products = await Promise.all(
-    orderDto.products.map(async (product) => {
-      const [name, price] = await db.getProductAndPrice(product.id);
-      return { id: product.id, name, price, quantity: product.quantity };
-    })
-  );
+const getProductAndPrice = async (productId: number): Promise<[string, number]> =>
+  cacheWrapper(`${PRODUCTS_PRICES_CACHE_KEY}_${productId}`, () => db.getProductAndPrice(productId));
 
-  const total = products.reduce((acc, product) => acc + product.price * product.quantity, 0);
+const createOrderFromDto = async (customerId: number, orderDto: OrderDto): Promise<Order> => {
+  const productInfoPromises: Promise<ProductInfo>[] = orderDto.products.map(async (product) => {
+    const [name, price] = await getProductAndPrice(product.id);
+    return { id: product.id, name, price, quantity: product.quantity };
+  });
+  const products = await Promise.all(productInfoPromises);
+
+  const totalPrice = products.reduce((acc, product) => acc + product.price * product.quantity, 0);
 
   return {
     products: products,
-    total,
+    total: totalPrice,
     address: orderDto.address,
     customerId,
   };
