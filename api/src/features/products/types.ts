@@ -28,21 +28,25 @@ export const convertToProductPrice = (json: any[]): ProductPrice[] => {
   }));
 };
 
+// JSON data has date in string, so it needs to be converted to Date object
+// Due to that we can't use TypeScript type guard
+// export const isValidPriceDataJson = (data: any[]): data is ProductPrice[] => {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const isValidPriceDataJson = (data: any[]) => {
   return (
-    data.length > 0 &&
+    Array.isArray(data) &&
     data.every(
       ({ productId, price, country, startDate, ...extra }) =>
         typeof productId === 'number' &&
-        productId > 0 &&
         typeof price === 'number' &&
-        price > 0 &&
         typeof country === 'string' &&
-        country.trim() !== '' &&
         typeof startDate === 'string' &&
         !isNaN(Date.parse(startDate)) &&
         Object.keys(extra).length === 0 // No extra properties
     )
   );
+};
+
+export const hasValidProductPrice = (prices: ProductPrice[]): boolean => {
+  return prices.every((price) => price.country.trim() !== '' && price.price > 0);
 };

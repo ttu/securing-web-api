@@ -1,7 +1,7 @@
 import { Request, Response, Router } from 'express';
 
 import { getProducts, getPrices, updatePrices, getCatalog } from './service';
-import { convertToProductPrice, isValidPriceDataJson } from './types';
+import { convertToProductPrice, hasValidProductPrice, isValidPriceDataJson } from './types';
 import { authMiddleware } from '../../middlewares/authMiddleware';
 
 export const router = Router();
@@ -19,7 +19,8 @@ router.get('/prices', async (req: Request, res: Response) => {
 router.post('/admin/prices', authMiddleware, async (req: Request, res: Response) => {
   const priceData = req.body;
 
-  if (!isValidPriceDataJson(priceData)) return res.status(400).send('Invalid price data');
+  if (!isValidPriceDataJson(priceData)) return res.status(400).json({ error: 'Invalid price data format.' });
+  if (!hasValidProductPrice(priceData)) return res.status(422).json({ error: 'Invalid product pricing.' });
 
   // TODO: Middlware could convert the Date strings to Date objects
   const priceUpdateData = convertToProductPrice(priceData);

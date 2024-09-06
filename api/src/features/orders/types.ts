@@ -48,17 +48,24 @@ export const idempotencyKey = (customerId: number, order: OrderDto) => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const isValidOrderDtoJson = (data: any) => {
+export const isProductOrderDto = (data: any): data is ProductOrderDto => {
+  const { id, quantity, ...extra } = data;
+  return typeof id === 'number' && typeof quantity === 'number' && Object.keys(extra).length === 0;
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const isValidOrderDto = (data: any): data is OrderDto => {
   const { products, address, ...extra } = data;
   return (
     Array.isArray(products) &&
-    products.length > 0 &&
-    products.every(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      ({ id, quantity }: any) => typeof id === 'number' && id > 0 && typeof quantity === 'number' && quantity > 0
-    ) &&
+    products.every((p) => isProductOrderDto(p)) &&
     typeof address === 'string' &&
-    address.trim() !== '' &&
-    Object.keys(extra).length === 0 // No extra properties
+    Object.keys(extra).length === 0
+  );
+};
+
+export const hasValidOrderData = (order: OrderDto): boolean => {
+  return (
+    order.address.trim() !== '' && order.products.length > 0 && order.products.every((product) => product.quantity > 0)
   );
 };

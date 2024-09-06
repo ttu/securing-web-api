@@ -29,11 +29,19 @@ describe('Orders route', () => {
   });
 
   it('POST / - invalid data', async () => {
-    const payload = { address: 'street 10', products: [] };
+    const payload = { address: 'street 10', products: [{ name: 'phone', price: 10 }] };
     const token = 50;
 
     const res = await request(app).post('/api/orders').set('Authorization', `Bearer ${token}`).send(payload);
     expect(res.status).toEqual(400);
+  });
+
+  it('POST / - incorrect data', async () => {
+    const payload = { address: 'street 10', products: [] };
+    const token = 50;
+
+    const res = await request(app).post('/api/orders').set('Authorization', `Bearer ${token}`).send(payload);
+    expect(res.status).toEqual(422);
   });
 
   it('POST / - idempotency', async () => {

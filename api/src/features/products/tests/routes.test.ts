@@ -51,7 +51,7 @@ describe('Products route', () => {
     expect(resFi.body[0].country).toEqual('fi');
   });
 
-  it('POST /admin/prices - invalid payload', async () => {
+  it('POST /admin/prices - invalid data', async () => {
     const payload = { productId: 1, price: 100 };
     const token = '1';
     const res = await request(app)
@@ -61,7 +61,17 @@ describe('Products route', () => {
     expect(res.status).toEqual(400);
   });
 
-  it('POST /admin/prices - valid payload', async () => {
+  it('POST /admin/prices - incorrect data', async () => {
+    const payload: ProductPrice[] = [{ productId: 1, price: 100, country: '', startDate: new Date() }];
+    const token = '1';
+    const res = await request(app)
+      .post('/api/products/admin/prices')
+      .send(payload)
+      .set('Authorization', `Bearer ${token}`);
+    expect(res.status).toEqual(422);
+  });
+
+  it('POST /admin/prices - valid data', async () => {
     const payload: ProductPrice[] = [{ productId: 1, price: 100, country: 'US', startDate: new Date() }];
     const token = '1';
     const res = await request(app)
