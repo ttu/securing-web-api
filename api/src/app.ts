@@ -1,19 +1,15 @@
 import express, { Request, Response, Router } from 'express';
-import { rateLimit } from 'express-rate-limit';
-import RedisStore from 'rate-limit-redis';
 
 import { cacheMiddleware } from './cache/cacheMiddleware';
-import { client } from './cache/cacheRedis';
 import { router as ordersRouter } from './features/orders/routes';
 import { router as productsRouter } from './features/products/routes';
 import { router as reportsRouter } from './features/reports/routes';
 import { router as supportRouter } from './features/support/routes';
 import { router as usersRouter } from './features/users/routes';
+import { rateLimitMiddleware } from './middlewares/rateLimitMiddleware';
 import { userBlockingkMiddleware } from './middlewares/userBlockingMiddleware';
 
 const PORT = process.env.PORT || 3000;
-
-const useRedis = process.env.CACHE === 'redis';
 
 const app = express();
 
@@ -27,20 +23,8 @@ app.use((req, res, next) => {
   next();
 });
 
-const rateLimitStore = useRedis
-  ? new RedisStore({ sendCommand: (...args: string[]) => client.sendCommand(args) })
-  : undefined;
-
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  limit: 100, // Limit each IP to 100 requests per `window`
-  standardHeaders: 'draft-7', // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
-  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
-  store: rateLimitStore,
-});
-
 // Apply the rate limiting middleware to all requests.
-// app.use(limiter);
+// app.use(rateLimitMiddleware);
 
 app.use(userBlockingkMiddleware);
 
