@@ -3,7 +3,7 @@ import { rateLimit } from 'express-rate-limit';
 import RedisStore from 'rate-limit-redis';
 
 import { cacheMiddleware } from './cache/cacheMiddleware';
-import { client, connectToServer } from './cache/cacheRedis';
+import { client } from './cache/cacheRedis';
 import { router as ordersRouter } from './features/orders/routes';
 import { router as productsRouter } from './features/products/routes';
 import { router as reportsRouter } from './features/reports/routes';
@@ -26,12 +26,6 @@ app.use((req, res, next) => {
   console.log(`[${timestamp}] ${method} ${url}`);
   next();
 });
-
-if (useRedis) {
-  connectToServer().then(() => {
-    console.log('Connected to Redis');
-  });
-}
 
 const rateLimitStore = useRedis
   ? new RedisStore({ sendCommand: (...args: string[]) => client.sendCommand(args) })
