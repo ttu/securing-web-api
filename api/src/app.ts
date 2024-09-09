@@ -7,6 +7,7 @@ import { router as reportsRouter } from './features/reports/routes';
 import { router as supportRouter } from './features/support/routes';
 import { router as usersRouter } from './features/users/routes';
 import { rateLimitMiddleware } from './middlewares/rateLimitMiddleware';
+import { requestLoggingMiddleware } from './middlewares/requesteLoggingMiddleware';
 import { userBlockingkMiddleware } from './middlewares/userBlockingMiddleware';
 
 const PORT = process.env.PORT || 3000;
@@ -15,13 +16,12 @@ const app = express();
 
 app.use(express.json());
 
-// Request logging
-app.use((req, res, next) => {
-  const { method, url } = req;
-  const timestamp = new Date().toISOString();
-  console.log(`[${timestamp}] ${method} ${url}`);
-  next();
-});
+// https://expressjs.com/en/guide/behind-proxies.html
+// When running behind a proxy like Nginx, the client IP address is taken from the x-forwarded-for header
+// app.set('trust proxy', 1);
+// without trust: IP: LB - x-real-ip: local - x-forwarded-for: local, CDN
+// with trust: IP: local - x-real-ip: local - x-forwarded-for: local, CDN
+app.use(requestLoggingMiddleware);
 
 // Apply the rate limiting middleware to all requests.
 // app.use(rateLimitMiddleware);
