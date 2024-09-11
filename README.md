@@ -106,7 +106,7 @@ chmod +x ./api_local.sh
 ./api_local.sh
 ```
 
-### Running load tests
+### Running load tests scenarios
 
 Load tests are implmented with [K6](https://k6.io/)
 
@@ -122,7 +122,7 @@ choco install k6
 Execute the following command to run the load tests
 
 ```sh
-k6 load-tests/get_users.js
+k6 scenarios/scenario_1.js
 ```
 
 ## Docker Compose commands
