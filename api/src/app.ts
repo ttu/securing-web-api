@@ -8,6 +8,7 @@ import { router as supportRouter } from './features/support/routes';
 import { router as usersRouter } from './features/users/routes';
 import { rateLimitMiddleware } from './middlewares/rateLimitMiddleware';
 import { requestLoggingMiddleware } from './middlewares/requesteLoggingMiddleware';
+import { slowDownMiddleware } from './middlewares/slowDownMiddleware';
 import { userBlockingkMiddleware } from './middlewares/userBlockingMiddleware';
 
 const PORT = process.env.PORT || 3000;
@@ -34,9 +35,13 @@ app.get('/health', (req: Request, res: Response) => {
 });
 
 // NOTE: cacheMiddleware should be applied per route
-app.use(cacheMiddleware(5));
+// app.use(cacheMiddleware(5));
 
 app.set('etag', true);
+
+// Apply the slow down middleware to all requests. This should be just before the routes
+// to simulate the slow down effect.
+app.use(slowDownMiddleware);
 
 const apiRouter = Router();
 apiRouter.use('/users', usersRouter);
@@ -48,7 +53,7 @@ apiRouter.use('/orders', ordersRouter);
 app.use('/api', apiRouter);
 
 app.get('/', (req: Request, res: Response) => {
-  return res.send('Hello World with TypeScript!');
+  return res.send('Hello World from example project!');
 });
 
 if (process.env.NODE_ENV !== 'test') {
