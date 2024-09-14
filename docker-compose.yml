@@ -50,7 +50,10 @@ services:
       - my_company_network
     volumes:
       - db-data:/var/lib/postgresql/data
-      - ./db/init/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./db/init/replication.sql:/docker-entrypoint-initdb.d/00_replication.sql
+      - ./db/init/products.sql:/docker-entrypoint-initdb.d/01_products.sql
+      - ./db/init/orders.sql:/docker-entrypoint-initdb.d/02_orders.sql
+      - ./db/init/messages.sql:/docker-entrypoint-initdb.d/03_messages.sql
       - ./db/conf/pg_hba.conf:/etc/postgresql/pg_hba.conf
       - ./db/conf/postgresql.conf:/etc/postgresql/postgresql.conf
     command: ["-c", "config_file=/etc/postgresql/postgresql.conf"]
