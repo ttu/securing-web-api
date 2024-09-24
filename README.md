@@ -44,9 +44,6 @@ When API has multiple instances, exposed ports do not work with current configur
 Endpoints:
 
 ```sh
-# Static file
-TODO
-
 ### Endpoint where data does not change frequently
 # Data changes once per day, once per month etc.
 GET /products/details/
@@ -69,21 +66,23 @@ POST /orders/
 POST /support/messages
 
 ### Endpoint with CPU expensive operation that will block the server
-# Create reports of orders, users etc.
+# Create reports of orders, customers etc.
 GET /reports/
 
+# Static files
+TODO
 ```
 
 Requests:
 
 ```sh
 # CDN
-curl localhost:80/api/users
-curl localhost:80/api/users/1
+curl localhost:80/api/products/details
+curl localhost:80/api/products/catalog/en
 
 # API
-curl localhost:3000/api/users
-curl localhost:3000/api/users/1
+curl localhost:3000/api/products/details
+curl localhost:3000/api/products/catalog/en
 
 # Static files from S3
 http://localhost:80/s3/index.html
@@ -117,6 +116,8 @@ Install [K6](https://grafana.com/docs/k6/latest/set-up/install-k6/). E.g.
 brew install k6
 # Windows
 choco install k6
+# Linux
+...
 ```
 
 Execute the following command to run the load tests
@@ -141,7 +142,7 @@ docker compose restart load_balancer
 Tail PostgreSQL logs
 
 ```sh
-docker exec -it securing-web-api-db-1 tail -f /var/lib/postgresql/data/pg_log/postgresql-2024-09-02.log
+docker exec -it securing-web-api-db-1 tail -f /var/lib/postgresql/data/pg_log/postgresql-2024-09-12.log
 ```
 
 ### Links

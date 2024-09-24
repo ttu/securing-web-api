@@ -5,7 +5,6 @@ import { router as ordersRouter } from './features/orders/routes';
 import { router as productsRouter } from './features/products/routes';
 import { router as reportsRouter } from './features/reports/routes';
 import { router as supportRouter } from './features/support/routes';
-import { router as usersRouter } from './features/users/routes';
 import { rateLimitMiddleware } from './middlewares/rateLimitMiddleware';
 import { requestLoggingMiddleware } from './middlewares/requesteLoggingMiddleware';
 import { slowDownMiddleware } from './middlewares/slowDownMiddleware';
@@ -44,7 +43,6 @@ app.set('etag', true);
 app.use(slowDownMiddleware);
 
 const apiRouter = Router();
-apiRouter.use('/users', usersRouter);
 apiRouter.use('/products', productsRouter);
 apiRouter.use('/reports', reportsRouter);
 apiRouter.use('/support', supportRouter);
