@@ -29,9 +29,9 @@ const getProductsWithoutCacheWrapper = async (): Promise<Product[]> => {
     console.log('Cache hit');
     return cachedProducts;
   }
-  const users = await db.getProducts();
-  await cache.add(PRODUCTS_CACHE_KEY, users);
-  return users;
+  const products = await db.getProducts();
+  await cache.add(PRODUCTS_CACHE_KEY, products);
+  return products;
 };
 
 const getProductsCache = async (): Promise<Product[]> => {
@@ -54,14 +54,16 @@ const getCatalogForCountry = async (country: string): Promise<ProductForCountryC
   const [products, prices] = await Promise.all([getProducts(), getPrices()]);
 
   // NOTE: This functionality includes some bad logic, so it is extremely slow
+  // If data base has over 10k products and multiple prices per products, this starts to be slow
   // Low slow downs can be hard to notice, try with different values
-  blockingSleep(100);
+  // blockingSleep(10);
 
+  const pricesForCountry = prices.filter((p) => p.country.toLocaleLowerCase() === country.toLocaleLowerCase());
   // Create a map for prices with productId as the key
-  const priceMap = new Map(prices.map((p) => [p.productId, p.price]));
+  const priceMap = new Map(pricesForCountry.map((p) => [p.productId, p.price]));
 
   const catalog = products.map((product) => {
-    return { ...product, price: priceMap.get(product.id) || 0, country };
+    return { ...product, price: priceMap.get(product.id) || 0 };
   });
   return catalog;
 };
