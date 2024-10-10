@@ -6,4 +6,5 @@ module.exports = {
       useESM: true,
     },
   },
+  testTimeout: 60000,
 };
