@@ -30,6 +30,11 @@ router.post('/admin/prices', authMiddleware, async (req: Request, res: Response)
 
 router.get('/catalog/:country', async (req: Request, res: Response) => {
   const { country } = req.params;
+  // Should validate country and return 400 if invalid
+
   const catalog = await getCatalog(country);
+
+  if (catalog.length === 0) return res.status(404).json({ error: 'Catalog not found for country' });
+
   return res.json(catalog);
 });

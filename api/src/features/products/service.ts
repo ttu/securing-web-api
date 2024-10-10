@@ -59,6 +59,10 @@ const getCatalogForCountry = async (country: string): Promise<ProductForCountryC
   // blockingSleep(10);
 
   const pricesForCountry = prices.filter((p) => p.country.toLocaleLowerCase() === country.toLocaleLowerCase());
+
+  // Remove this to show how this endpoint doesn't work correctly with invalid country
+  if (pricesForCountry.length === 0) return [];
+
   // Create a map for prices with productId as the key
   const priceMap = new Map(pricesForCountry.map((p) => [p.productId, p.price]));
 

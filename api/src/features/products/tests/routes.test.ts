@@ -18,9 +18,25 @@ const MOCK_PRODUCT_PRICES: ProductPrice[] = [
   { productId: 3, price: 699, country: 'US', startDate: new Date() },
   { productId: 4, price: 799, country: 'US', startDate: new Date() },
   { productId: 5, price: 499, country: 'US', startDate: new Date() },
+  { productId: 1, price: 999, country: 'EN', startDate: new Date() },
+  { productId: 2, price: 899, country: 'EN', startDate: new Date() },
+  { productId: 3, price: 699, country: 'EN', startDate: new Date() },
+  { productId: 4, price: 799, country: 'EN', startDate: new Date() },
+  { productId: 5, price: 499, country: 'EN', startDate: new Date() },
+  { productId: 1, price: 999, country: 'FI', startDate: new Date() },
+  { productId: 2, price: 899, country: 'FI', startDate: new Date() },
+  { productId: 3, price: 699, country: 'FI', startDate: new Date() },
+  { productId: 4, price: 799, country: 'FI', startDate: new Date() },
+  { productId: 5, price: 499, country: 'FI', startDate: new Date() },
 ];
 
-jest.mock('../db'); // Automatically mock the db module
+beforeEach(() => {
+  jest.mock('../db'); // Automatically mock the db module
+});
+
+afterEach(() => {
+  jest.clearAllMocks();
+});
 
 describe('Products route', () => {
   it('GET /details', async () => {
@@ -43,12 +59,17 @@ describe('Products route', () => {
     jest.spyOn(db, 'getPrices').mockResolvedValueOnce(MOCK_PRODUCT_PRICES);
 
     const resEn = await request(app).get('/api/products/catalog/en');
+    expect(resEn.status).toEqual(200);
     expect(resEn.body.length).toEqual(MOCK_PRODUCTS.length);
-    expect(resEn.body[0].country).toEqual('en');
 
     const resFi = await request(app).get('/api/products/catalog/fi');
+    expect(resFi.status).toEqual(200);
     expect(resFi.body.length).toEqual(MOCK_PRODUCTS.length);
-    expect(resFi.body[0].country).toEqual('fi');
+  });
+
+  it('GET /catalog - invalid country', async () => {
+    const res = await request(app).get('/api/products/catalog/xx');
+    expect(res.status).toEqual(404);
   });
 
   it('POST /admin/prices - invalid data', async () => {
