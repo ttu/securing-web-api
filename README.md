@@ -12,7 +12,7 @@ Purpose of the project is not to give thourough understainding of the infrastruc
 
 Implemented components:
 
-- [ ] WAF
+- [x] WAF
 - [x] CDN
 - [x] File Storage
 - [x] Load Balancer

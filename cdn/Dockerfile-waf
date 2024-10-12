@@ -1,0 +1,11 @@
+# Use the official CRS ModSecurity image as the base
+FROM owasp/modsecurity-crs:4.7-nginx-202410030910
+
+# Copy your custom nginx configuration files
+COPY nginx.conf /etc/nginx/templates/conf.d/default.conf
+
+# Copy static content
+COPY static /usr/share/nginx/html/static
+
+# Expose the necessary port
+EXPOSE 80

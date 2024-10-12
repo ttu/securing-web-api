@@ -1,8 +1,9 @@
-FROM openresty/openresty:alpine
+# CDN without WAF (Web Application Firewall)
+FROM nginx:stable-alpine
 
-COPY nginx.conf /usr/local/openresty/nginx/conf
+COPY nginx.conf /etc/nginx/nginx.conf
 
-# Copy static content. This could be a proxy to e.g. S3
-COPY static /usr/local/openresty/nginx/html/static
+# Copy static content
+COPY static /usr/share/nginx/html/static
 
 EXPOSE 80
