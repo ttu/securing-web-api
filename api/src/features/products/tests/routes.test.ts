@@ -44,6 +44,7 @@ describe('Products route', () => {
 
     const res = await request(app).get('/api/products/details');
     expect(res.body).toEqual(MOCK_PRODUCTS);
+    expect(res.header['cache-control']).toEqual('public, max-age=600');
   });
 
   it('GET /prices', async () => {
