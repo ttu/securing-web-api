@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 
 import { isUserBlocked } from './userBlockingMiddleware';
+import { sleep } from '../utils';
 
 export const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers['authorization'];
@@ -23,6 +24,8 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
   }
 
   req.userId = parseInt(token);
+
+  await sleep(5); // Simulate fetching user info from DB / external service
 
   // NOTE: In reality token should be verified using JWT
   //   try {
