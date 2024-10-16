@@ -4,7 +4,7 @@
 
 Example project for the article: [Efficiently Securing Web Applications Against High User Peaks and Denial-of-Service Attacks](https://ttu.github.io/securing-web-app/)
 
-Purpose of the project is not to give thourough understainding of the infrastructure, but to provide a simple example for developers to get a grasp of the concept.
+The purpose of the project is not to provide a thorough understanding of the infrastructure, but to offer a simple example that can be executed locally, giving developers the opportunity to grasp the concept.
 
 ## Infrastructure
 
@@ -18,7 +18,7 @@ Implemented components:
 - [x] Load Balancer
 - [x] API
 - [x] Cache
-- [x] Database
+- [x] Database + Read Replica
 
 ## Setup
 
@@ -33,8 +33,11 @@ docker compose up
 ```txt
 80: CDN
 8080: Load Balancer
-3000: API
 6379: Redis
+5432: DB
+5433: DB Replica
+4566: S3
+3000: API
 ```
 
 When API has multiple instances, exposed ports do not work with current configuration.
@@ -68,9 +71,6 @@ POST /support/messages
 ### Endpoint with CPU expensive operation that will block the server
 # Create reports of orders, customers etc.
 GET /reports/
-
-# Static files
-TODO
 ```
 
 Requests:
@@ -84,8 +84,12 @@ curl localhost:80/api/products/catalog/en
 curl localhost:3000/api/products/details
 curl localhost:3000/api/products/catalog/en
 
-# Static files from S3
+# Static files
+# S3 through CDN
 http://localhost:80/s3/index.html
+# Static files from CDN
+http://localhost:80/static/index.html
+
 ```
 
 ### Cache durations
@@ -123,7 +127,17 @@ choco install k6
 Execute the following command to run the load tests
 
 ```sh
-k6 scenarios/scenario_1.js
+k6 run scenarios/scenario_1.js
+```
+
+### Integration tests
+
+Integartion tests are implemented with [Jest](https://jestjs.io/).
+
+```sh
+cd integration_tests
+npm install
+npm test
 ```
 
 ## Docker Compose commands
@@ -144,8 +158,3 @@ Tail PostgreSQL logs
 ```sh
 docker exec -it securing-web-api-db-1 tail -f /var/lib/postgresql/data/pg_log/postgresql-2024-09-12.log
 ```
-
-### Links
-
-- https://medium.com/@aedemirsen/load-balancing-with-docker-compose-and-nginx-b9077696f624
-- https://geshan.com.np/blog/2022/01/redis-docker/
