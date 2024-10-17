@@ -10,6 +10,17 @@
         "isDefault": true
       },
       "problemMatcher": ["$tsc"]
+    },
+    {
+      "label": "docker compose up",
+      "type": "shell",
+      "command": "docker compose up db cache",
+      "problemMatcher": []
+    },
+    {
+      "label": "docker-compose and build",
+      "dependsOn": ["docker compose up", "tsc: build"],
+      "problemMatcher": []
     }
   ]
 }
