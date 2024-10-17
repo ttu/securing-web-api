@@ -80,6 +80,9 @@ services:
     user: postgres  # Run everything as the postgres user
     command: |
       bash -c "
+      # NOTE: Ensure the data directory is empty before starting replication.
+      # The data directory is cleared automatically at the start of the replica setup.
+      rm -rf /var/lib/postgresql/data/*
       until pg_basebackup --pgdata=/var/lib/postgresql/data -R --slot=replication_slot --host=db --port=5432
       do
       echo 'Waiting for primary to connect...'
