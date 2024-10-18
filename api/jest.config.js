@@ -5,4 +5,5 @@ module.exports = {
     '^.+.tsx?$': ['ts-jest', {}],
   },
   testTimeout: 60000,
+  testPathIgnorePatterns: ['/dist/'], // Ignore dist folder
 };
