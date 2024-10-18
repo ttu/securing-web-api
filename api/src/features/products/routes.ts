@@ -2,12 +2,12 @@ import { Request, Response, Router } from 'express';
 
 import { getProducts, getPrices, updatePrices, getCatalog } from './service';
 import { convertToProductPrice, hasValidProductPrice, isValidPriceDataJson } from './types';
-import { longCacheMiddlware } from '../../cache/cacheControlMiddleware';
+import { shortCacheMiddlware } from '../../cache/cacheControlMiddleware';
 import { authMiddleware } from '../../middlewares/authMiddleware';
 
 export const router = Router();
 
-router.get('/details', longCacheMiddlware, async (req: Request, res: Response) => {
+router.get('/details', shortCacheMiddlware(), async (req: Request, res: Response) => {
   const products = await getProducts();
   return res.json(products);
 });
