@@ -10,15 +10,13 @@ The purpose of the project is not to provide a thorough understanding of the inf
 
 ![Infrastructure](https://ttu.github.io/images/posts/securing-web-app/infrastructure.png)
 
-Implemented components:
-
-- [x] WAF
-- [x] CDN
-- [x] File Storage
-- [x] Load Balancer
-- [x] API
-- [x] Cache
-- [x] Database + Read Replica
+- WAF - _Part of CDN_
+- CDN - _nginx_
+- File Storage - S3 - _LocalStack_
+- Load Balancer - _nginx_
+- API - _Node.js Express_
+- Cache - _Redis_
+- Database + Read Replica - _PostgreSQL_
 
 ## Setup
 
@@ -40,7 +38,7 @@ docker compose up
 3000: API
 ```
 
-When API has multiple instances, exposed ports do not work with current configuration.
+When API has multiple instances, exposed ports do not work with docker compose.
 
 ### Example Requests
 
@@ -89,25 +87,66 @@ curl localhost:3000/api/products/catalog/en
 http://localhost:80/s3/index.html
 # Static files from CDN
 http://localhost:80/static/index.html
-
 ```
 
-### Cache durations
+### Cache
 
-```txt
-CDN 10s
-Load Balancer 20s
-API 30s
-```
+#### CDN
 
-### Running API project
+CDN has a cache based on the `Cache-Control` header.
 
-Start project with Redis cache
+#### Load Balancer
+
+Load Balancer has a simple cache for only `GET` 200 status code responses:
+
+#### API
+
+API has two caches:
+
+1. Middleware cache
+2. Code-level cache
+
+API can be configured to use in-memory cache or Redis cache.
+
+### Running only API project
+
+#### VS Code
+
+1. Open the repository in VS Code
+2. Run and Debug -> "Launch API"
+
+#### Script
+
+Start only API project and DB + Cache from docker compose
 
 ```sh
 chmod +x ./api_local.sh
 ./api_local.sh
 ```
+
+### API unit tests
+
+Unit tests are implemented with [Jest](https://jestjs.io/).
+
+```sh
+cd api
+npm install
+npm test
+```
+
+or open the api directory in VS Code and run the tests with the test runner.
+
+### Integration tests
+
+Integartion tests are implemented with [Jest](https://jestjs.io/).
+
+```sh
+cd integration_tests
+npm install
+npm test
+```
+
+or open the integration_tests directory in VS Code and run the tests with the test runner.
 
 ### Running load tests scenarios
 
@@ -128,16 +167,6 @@ Execute the following command to run the load tests
 
 ```sh
 k6 run scenarios/scenario_1.js
-```
-
-### Integration tests
-
-Integartion tests are implemented with [Jest](https://jestjs.io/).
-
-```sh
-cd integration_tests
-npm install
-npm test
 ```
 
 ## Docker Compose commands
