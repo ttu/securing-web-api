@@ -1,6 +1,12 @@
 import { createClient } from 'redis';
 
-const subscriber = createClient();
+// Initialize Redis client with environment variables
+const redisHost = process.env.REDIS_HOST || 'localhost';
+const redisPort = process.env.REDIS_PORT || 6379;
+
+const subscriber = createClient({
+  url: `redis://${redisHost}:${redisPort}`,
+});
 
 subscriber.on('error', (err) => {
   console.error('Redis error:', err);

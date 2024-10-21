@@ -1,6 +1,13 @@
 import { connectToServer, disconnectFromServer, publishMessage } from '../../../pubsub/publisherRedis';
 
-const payload = [{ productId: 1, price: 100 }];
+const payload = [
+  {
+    productId: 1,
+    price: 2000,
+    country: 'US',
+    startDate: '2025-01-01T00:00:00.000Z',
+  },
+];
 
 (async () => {
   await connectToServer();

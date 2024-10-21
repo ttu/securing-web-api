@@ -1,6 +1,12 @@
 import { createClient } from 'redis';
 
-const publisher = createClient();
+// Initialize Redis client with environment variables
+const redisHost = process.env.REDIS_HOST || 'localhost';
+const redisPort = process.env.REDIS_PORT || 6379;
+
+const publisher = createClient({
+  url: `redis://${redisHost}:${redisPort}`,
+});
 
 publisher.on('error', (err) => {
   console.error('Redis error:', err);
