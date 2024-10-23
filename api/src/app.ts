@@ -1,14 +1,11 @@
 import express, { Request, Response, Router } from 'express';
 
-import { cacheMiddleware } from './cache/cacheMiddleware';
 import { router as ordersRouter } from './features/orders/routes';
 import { router as productsRouter } from './features/products/routes';
 import { router as reportsRouter } from './features/reports/routes';
 import { router as supportRouter } from './features/support/routes';
-import { rateLimitMiddleware } from './middlewares/rateLimitMiddleware';
 import { requestLoggingMiddleware } from './middlewares/requesteLoggingMiddleware';
 import { slowDownMiddleware } from './middlewares/slowDownMiddleware';
-import { userBlockingkMiddleware } from './middlewares/userBlockingMiddleware';
 
 const PORT = process.env.PORT || 3000;
 
@@ -23,18 +20,10 @@ app.use(express.json());
 // with trust: IP: local - x-real-ip: local - x-forwarded-for: local, CDN
 app.use(requestLoggingMiddleware);
 
-// Apply the rate limiting middleware to all requests.
-// app.use(rateLimitMiddleware);
-
-app.use(userBlockingkMiddleware);
-
 // Health check
 app.get('/health', (req: Request, res: Response) => {
   return res.send('OK');
 });
-
-// NOTE: cacheMiddleware should be applied per route
-// app.use(cacheMiddleware(5));
 
 app.set('etag', true);
 

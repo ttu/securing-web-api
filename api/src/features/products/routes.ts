@@ -2,22 +2,12 @@ import { Request, Response, Router } from 'express';
 
 import { getProducts, getPrices, updatePrices, getCatalog } from './service';
 import { convertToProductPrice, hasValidProductPrice, isValidPriceDataJson } from './types';
-import { shortCacheMiddlware } from '../../cache/cacheControlMiddleware';
 import { authMiddleware } from '../../middlewares/authMiddleware';
-import { sleep } from '../../utils';
 
 export const router = Router();
 
-router.get('/details', shortCacheMiddlware(), async (req: Request, res: Response) => {
+router.get('/details', async (req: Request, res: Response) => {
   const products = await getProducts();
-
-  // EXAMPLE: Disable the ETag and show how the browser cache works with Last-Modified
-  // res.set('Last-Modified', 'Sat, 19 Oct 2024 13:48:08 GMT'); // You can replace this with the actual last modified date
-  // EXAMPLE: Simulate a slow response
-  // await sleep(10000);
-  // EXAMPLE: Simulate an error from the server
-  // return res.status(500).json({ error: 'Internal server error' });
-
   return res.json(products);
 });
 

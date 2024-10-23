@@ -14,7 +14,8 @@
     {
       "label": "docker compose up",
       "type": "shell",
-      "command": "docker compose up -d db cache",
+      "command": "docker compose up -d db",
+      // "command": "docker compose up -d db cache",
       "problemMatcher": []
     },
     {
