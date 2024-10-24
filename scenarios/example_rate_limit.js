@@ -1,5 +1,7 @@
 /*
-## RATE LIMIT EXAMPLE
+## Rate Limit Example
+
+Use this script to test the rate limit of the server.
 */
 
 import http from 'k6/http';

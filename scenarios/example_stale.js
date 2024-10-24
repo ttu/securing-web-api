@@ -1,5 +1,7 @@
 /*
-## RATE LIMIT EXAMPLE
+## Stale while revalidate
+
+Use this script to show how the CDN can serve stale content while revalidating the cache.
 */
 
 import http from 'k6/http';

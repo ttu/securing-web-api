@@ -97,7 +97,7 @@ CDN has a cache based on the `Cache-Control` header.
 
 #### Load Balancer
 
-Load Balancer has a simple cache for only `GET` 200 status code responses:
+Load Balancer has a simple cache for only `GET` 200 status code responses. This is disabled by default.
 
 #### API
 
@@ -148,7 +148,7 @@ npm test
 
 or open the integration_tests directory in VS Code and run the tests with the test runner.
 
-### Running load tests scenarios
+### Running scenarios
 
 Load tests are implmented with [K6](https://k6.io/)
 
@@ -167,6 +167,26 @@ Execute the following command to run the load tests
 
 ```sh
 k6 run scenarios/scenario_1.js
+```
+
+## Branch for scenarios
+
+[scenarios](https://github.com/ttu/securing-web-api/tree/scenarios) branch contains a starting point for the scenarios.
+
+```sh
+git checkout scenarios
+```
+
+If using VS Code to run the project, edit from `task.json` `docker compose up`-task to match used setup.
+
+```json
+"command": "docker compose up -d db cache",
+```
+
+or
+
+```json
+"command": "docker compose up -d db",
 ```
 
 ## Docker Compose commands
