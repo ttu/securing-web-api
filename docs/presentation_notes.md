@@ -2,6 +2,15 @@
 
 There are intentional slowdowns in the code to demonstrate how different parts of the system work. This simulates real-world scenarios where some components of the system may be slow.
 
+## Prerequisites
+
+- Running infra: Docker
+- Scenarios: [k6](https://k6.io/)
+  - Easy to port to any other load testing tool
+- Example requests: [Postman](https://www.postman.com/)
+  - Postman request collection can be imported to [yaak](https://yaak.app/), [Insomnia](https://insomnia.rest/) etc.
+- [Zap](https://www.zaproxy.org/) may be used to demonstrate how WAF can help with security.
+
 ## About Users and Requests
 
 It is difficult to estimate how many users and requests the service will need to handle. The number of users may fluctuate throughout the day, and certain events could cause spikes in traffic.
@@ -59,7 +68,28 @@ Measure latency from your browser to various cloud provider data centers: [Cloud
 
 - Most providers offer same services, but with different names.
 - Akamai & CloudFlare handle like 40% of all internet traffic.
-- Project setup
+
+## Project infrastructure
+
+- WAF - _Part of CDN_
+- CDN - _nginx_
+  - Uses OWASP ModSecurity image
+- Load Balancer - _nginx_
+- API - _Node.js Express_
+- Cache - _Redis_
+- Database + Read Replica - _PostgreSQL_
+  - Seed data with optional creation on large volume of data
+- File Storage - S3 - _LocalStack_
+
+### API
+
+- Express
+- Features in own folders
+  - Features structured to layers (Route, Business Logic, Data Access)
+  - Some use layering more, some less
+  - Each feature has own unit tests
+- Run project with Docker, VS Code or skript
+- Authentication with fake Bearer token. `Authorization: Bearer <userid>`
 
 ## No Open Endpoints - Automatic API security testing
 
@@ -95,14 +125,11 @@ Show Zaproxy usage on server. Show how it can be used to find vulnerabilities an
   - [How CDN works](https://cf-assets.www.cloudflare.com/slt3lc6tev37/7Dy6rquZDDKSJoeS27Y6xc/4a671b7cc7894a475a94f0140981f5d9/what_is_a_cdn_distributed_server_map.png)
   - Other features: image optimization, security, etc.
 - Load Balancer
-  - Multiple instances
+  - Balance load for all instances
 - Cache-Control headers
-  - Show how cache works
-  - Show how cache is used in the service
-  - Show how cache is used in the middleware
+  - How headers are used by Browser, CDN, LB
 - Show how cache works
-  - Show how cache is used in the service
-  - Show how cache is used in the middleware
+  - Show how cache is used in the service, middleware, LB and CDN
 - Cache invalidation
   - POST `products/admin/prices`
   - Pubsub
@@ -112,8 +139,9 @@ Show Zaproxy usage on server. Show how it can be used to find vulnerabilities an
     - CDN (normal vs enterprise), Redis, nginx
 - Slow endpoints
   - POST to reports endpoint x 2 -> GET requests wait
-  - SSR was slow and could handle under 10 requests per second
-  - Parsing large JSONs could handle 100 requests per second.
+  - Examples:
+    - SSR was slow and could handle under 10 requests per second
+    - Parsing large JSONs could handle 100 requests per second
 - Stale while revalidate
   - When cache expires, multiple requests hit the server, unless stale while revalidate is used
   - Add sleep to e.g. details endpoint
@@ -170,8 +198,6 @@ Often there is some code that is just slow. E.g. calling endpoint takes 10-50ms 
 
 - After this there is multiple instances, load balancer and shared cache.
 - Now we can server endless amount of requests.
-
-?? Is there a way to demonstrate how much faster this is
 
 ## 3: Going global - Things Are Looking Bright
 
