@@ -146,7 +146,7 @@ services:
       s3:
         condition: service_started
   s3:
-    image: localstack/localstack:latest
+    image: localstack/localstack:stable
     environment:
       - SERVICES=s3
       - DEBUG=1
