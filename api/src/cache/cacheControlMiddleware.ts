@@ -17,14 +17,14 @@ import { NextFunction, Request, Response } from 'express';
 // For demonstration purposes, caching durations are shorter than in a real-world scenario
 
 // Cache for 10 seconds
-const shortCacheMiddlware = () => {
+const shortCacheMiddleware = () => {
   return async (req: Request, res: Response, next: NextFunction) => {
     return cacheMiddleware(req, res, next, 'public, max-age=10');
   };
 };
 
 // Cache for 30 seconds
-const longCacheMiddlware = () => {
+const longCacheMiddleware = () => {
   return async (req: Request, res: Response, next: NextFunction) => {
     return cacheMiddleware(req, res, next, 'public, max-age=30');
   };
@@ -70,4 +70,4 @@ const getCacheControlValue = (statusCode: number, okValue: string) => {
   return okValue;
 };
 
-export { shortCacheMiddlware, longCacheMiddlware, noCacheMiddleware };
+export { shortCacheMiddleware, longCacheMiddleware, noCacheMiddleware };

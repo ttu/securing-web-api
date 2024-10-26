@@ -14,7 +14,7 @@ const CATALOG_CACHE_KEY = 'prices';
 // export const getCatalog = async (country: string): Promise<Product[]> => getCatalogForCountry(country);
 
 // Cached versions
-export const getProducts = async (): Promise<Product[]> => getProductsCache();
+export const getProducts = async (): Promise<Product[]> => getProductsCached();
 export const getPrices = async (): Promise<ProductPrice[]> => getPricesCached();
 export const getCatalog = async (country: string): Promise<Product[]> => getCatalogCached(country);
 
@@ -23,7 +23,7 @@ const getProductsNoCache = async () => {
   return products;
 };
 
-const getProductsWithoutCacheWrapper = async (): Promise<Product[]> => {
+const getProductsWithCache = async (): Promise<Product[]> => {
   const cachedProducts = await cache.get<Product[]>(PRODUCTS_CACHE_KEY);
   if (cachedProducts) {
     console.log('Cache hit');
@@ -34,7 +34,7 @@ const getProductsWithoutCacheWrapper = async (): Promise<Product[]> => {
   return products;
 };
 
-const getProductsCache = async (): Promise<Product[]> => {
+const getProductsCached = async (): Promise<Product[]> => {
   const products = await cacheWrapper(PRODUCTS_CACHE_KEY, () => db.getProducts());
   return products;
 };
@@ -45,7 +45,7 @@ const getPricesCached = async (): Promise<ProductPrice[]> => {
 };
 
 const getCatalogForCountry = async (country: string): Promise<ProductForCountryCatalog[]> => {
-  console.log('Executing slow logig for catalog for country', { country });
+  console.log('Executing slow logic for catalog for country', { country });
 
   // For demonstration purposes, skip the logic and return empty array
   // blockingSleep(1000);

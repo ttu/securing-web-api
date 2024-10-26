@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 
-export const userBlockingkMiddleware = async (req: Request, res: Response, next: NextFunction) => {
+export const userBlockingMiddleware = async (req: Request, res: Response, next: NextFunction) => {
   if (req.ip) {
     if (isIpBlocked(req.ip)) {
       return res.status(403).send('IP is blocked');

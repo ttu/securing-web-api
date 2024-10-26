@@ -8,7 +8,7 @@ import { router as supportRouter } from './features/support/routes';
 import { rateLimitMiddleware } from './middlewares/rateLimitMiddleware';
 import { requestLoggingMiddleware } from './middlewares/requesteLoggingMiddleware';
 import { slowDownMiddleware } from './middlewares/slowDownMiddleware';
-import { userBlockingkMiddleware } from './middlewares/userBlockingMiddleware';
+import { userBlockingMiddleware } from './middlewares/userBlockingMiddleware';
 
 const PORT = process.env.PORT || 3000;
 
@@ -26,7 +26,7 @@ app.use(requestLoggingMiddleware);
 // Apply the rate limiting middleware to all requests.
 // app.use(rateLimitMiddleware);
 
-app.use(userBlockingkMiddleware);
+app.use(userBlockingMiddleware);
 
 // Health check
 app.get('/health', (req: Request, res: Response) => {
