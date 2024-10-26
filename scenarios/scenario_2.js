@@ -48,7 +48,7 @@ const durationInternal = new Trend('http_req_duration_intetrnal');
 
 export function products() {
   const url = getRandomUrl();
-  const res = http.get(`${API_URL}${url}`);
+  const res = http.get(`${PRODUCTS_URL}${url}`);
   check(res, { 'Products: status is 200': (r) => r.status === 200 });
   durationCustomers.add(res.timings.duration);
 
