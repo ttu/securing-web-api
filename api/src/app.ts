@@ -26,7 +26,7 @@ app.use(requestLoggingMiddleware);
 // Apply the rate limiting middleware to all requests.
 // app.use(rateLimitMiddleware);
 
-app.use(userBlockingMiddleware);
+// app.use(userBlockingMiddleware);
 
 // Health check
 app.get('/health', (req: Request, res: Response) => {

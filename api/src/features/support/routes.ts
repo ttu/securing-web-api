@@ -27,10 +27,10 @@ router.post('/messages', async (req: Request, res: Response) => {
   }
 
   // If sender has sent message in last x seconds, reject
-  if (await rejectFromSender(message.sender)) {
-    return res.status(429).json({ error: 'Too many requests' });
-    //return res.status(201).json({ status: 'ok' });
-  }
+  // if (await rejectFromSender(message.sender)) {
+  //   return res.status(429).json({ error: 'Too many requests' });
+  //   //return res.status(201).json({ status: 'ok' });
+  // }
 
   const ip = req.ip;
   const now = Date.now();
@@ -38,7 +38,7 @@ router.post('/messages', async (req: Request, res: Response) => {
   const toStore: StoredMessage = { sender: message.sender, message: message.message, timestamp: now, ip: ip || '' };
   await insertMessage(toStore);
 
-  await addSenderToBlocked(message.sender);
+  // await addSenderToBlocked(message.sender);
 
   return res.status(201).json({ status: 'ok' });
 });
@@ -63,11 +63,11 @@ const insertMessage = async (message: StoredMessage) => {
 };
 
 // Block messages from same sender for 20 seconds
-const addSenderToBlocked = async (sender: string) => {
-  await cache.add(`${MESSAGES_IDEMPOTENCY_KEY}_${sender}`, true, 20);
-};
+// const addSenderToBlocked = async (sender: string) => {
+//   await cache.add(`${MESSAGES_IDEMPOTENCY_KEY}_${sender}`, true, 20);
+// };
 
-const rejectFromSender = async (sender: string): Promise<boolean> => {
-  const hasJustSent = await cache.get(`${MESSAGES_IDEMPOTENCY_KEY}_${sender}`);
-  return hasJustSent ? true : false;
-};
+// const rejectFromSender = async (sender: string): Promise<boolean> => {
+//   const hasJustSent = await cache.get(`${MESSAGES_IDEMPOTENCY_KEY}_${sender}`);
+//   return hasJustSent ? true : false;
+// };

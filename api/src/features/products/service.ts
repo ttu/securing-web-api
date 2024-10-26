@@ -9,40 +9,40 @@ const PRICES_CACHE_KEY = 'prices';
 const CATALOG_CACHE_KEY = 'prices';
 
 // Non-cached versions
-// export const getProducts = async (): Promise<Product[]> => getProductsNoCache();
-// export const getPrices = async (): Promise<ProductPrice[]> => db.getPrices();
-// export const getCatalog = async (country: string): Promise<Product[]> => getCatalogForCountry(country);
+export const getProducts = async (): Promise<Product[]> => getProductsNoCache();
+export const getPrices = async (): Promise<ProductPrice[]> => db.getPrices();
+export const getCatalog = async (country: string): Promise<Product[]> => getCatalogForCountry(country);
 
 // Cached versions
-export const getProducts = async (): Promise<Product[]> => getProductsCached();
-export const getPrices = async (): Promise<ProductPrice[]> => getPricesCached();
-export const getCatalog = async (country: string): Promise<Product[]> => getCatalogCached(country);
+// export const getProducts = async (): Promise<Product[]> => getProductsCached();
+// export const getPrices = async (): Promise<ProductPrice[]> => getPricesCached();
+// export const getCatalog = async (country: string): Promise<Product[]> => getCatalogCached(country);
 
 const getProductsNoCache = async () => {
   const products = await db.getProducts();
   return products;
 };
 
-const getProductsWithCache = async (): Promise<Product[]> => {
-  const cachedProducts = await cache.get<Product[]>(PRODUCTS_CACHE_KEY);
-  if (cachedProducts) {
-    console.log('Cache hit');
-    return cachedProducts;
-  }
-  const products = await db.getProducts();
-  await cache.add(PRODUCTS_CACHE_KEY, products);
-  return products;
-};
+// const getProductsWithCache = async (): Promise<Product[]> => {
+//   const cachedProducts = await cache.get<Product[]>(PRODUCTS_CACHE_KEY);
+//   if (cachedProducts) {
+//     console.log('Cache hit');
+//     return cachedProducts;
+//   }
+//   const products = await db.getProducts();
+//   await cache.add(PRODUCTS_CACHE_KEY, products);
+//   return products;
+// };
 
-const getProductsCached = async (): Promise<Product[]> => {
-  const products = await cacheWrapper(PRODUCTS_CACHE_KEY, () => db.getProducts());
-  return products;
-};
+// const getProductsCached = async (): Promise<Product[]> => {
+//   const products = await cacheWrapper(PRODUCTS_CACHE_KEY, () => db.getProducts());
+//   return products;
+// };
 
-const getPricesCached = async (): Promise<ProductPrice[]> => {
-  const products = await cacheWrapper(PRICES_CACHE_KEY, () => db.getPrices());
-  return products;
-};
+// const getPricesCached = async (): Promise<ProductPrice[]> => {
+//   const products = await cacheWrapper(PRICES_CACHE_KEY, () => db.getPrices());
+//   return products;
+// };
 
 const getCatalogForCountry = async (country: string): Promise<ProductForCountryCatalog[]> => {
   console.log('Executing slow logic for catalog for country', { country });
@@ -72,12 +72,12 @@ const getCatalogForCountry = async (country: string): Promise<ProductForCountryC
   return catalog;
 };
 
-const getCatalogCached = async (country: string): Promise<ProductForCountryCatalog[]> => {
-  const catalogForCountry = await cacheWrapper(`${CATALOG_CACHE_KEY}_${country}`, async () =>
-    getCatalogForCountry(country)
-  );
-  return catalogForCountry;
-};
+// const getCatalogCached = async (country: string): Promise<ProductForCountryCatalog[]> => {
+//   const catalogForCountry = await cacheWrapper(`${CATALOG_CACHE_KEY}_${country}`, async () =>
+//     getCatalogForCountry(country)
+//   );
+//   return catalogForCountry;
+// };
 
 export const updatePrices = async (prices: ProductPrice[]) => {
   console.log('Update prices', { dataReceived: prices });

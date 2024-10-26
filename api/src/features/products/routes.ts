@@ -8,7 +8,7 @@ import { sleep } from '../../utils';
 
 export const router = Router();
 
-router.get('/details', shortCacheMiddleware(), async (req: Request, res: Response) => {
+router.get('/details', async (req: Request, res: Response) => {
   const products = await getProducts();
 
   // EXAMPLE: Disable the ETag and show how the browser cache works with Last-Modified
