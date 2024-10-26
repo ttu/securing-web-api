@@ -88,10 +88,10 @@ Measure latency from your browser to various cloud provider data centers: [Cloud
   - Features structured to layers (Route, Business Logic, Data Access)
   - Some use layering more, some less
   - Each feature has own unit tests
-- Run project with Docker, VS Code or skript
+- Run project with Docker, VS Code or script
 - Authentication with fake Bearer token. `Authorization: Bearer <userid>`
 
-## No Open Endpoints - Automatic API security testing
+## No Open Endpoints - Automatic API Security Testing
 
 [Zed Attack Proxy guide guide](https://ttu.github.io/zed-attack-proxy-quick-guide/)
 

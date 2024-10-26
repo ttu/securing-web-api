@@ -1,10 +1,10 @@
 # Securing Web API
 
-[![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
-
-Example project for the article: [Efficiently Securing Web Applications Against High User Peaks and Denial-of-Service Attacks](https://ttu.github.io/securing-web-app/)
+Example infrastructure for the article: [Efficiently Securing Web Applications Against High User Peaks and Denial-of-Service Attacks](https://ttu.github.io/securing-web-app/)
 
 The purpose of the project is not to provide a thorough understanding of the infrastructure, but to offer a simple example that can be executed locally, giving developers the opportunity to grasp the concept.
+
+The project includes training scenarios that start with a single instance of the API and a database. The scenarios incrementally build the infrastructure to include cache, multiple instances, load balancer, CDN, and rate limiting. Scenarios are implemented with [K6](https://k6.io/).
 
 ## Infrastructure
 
@@ -20,13 +20,13 @@ The purpose of the project is not to provide a thorough understanding of the inf
 
 ## Setup
 
-### Running the project with Docker
+### Running Infrastructure With Docker
 
 ```sh
 docker compose up
 ```
 
-### Exposed ports
+### Exposed Ports
 
 ```txt
 80: CDN
@@ -108,7 +108,7 @@ API has two caches:
 
 API can be configured to use in-memory cache or Redis cache.
 
-### Running only API project
+### Running Only The API Project
 
 #### VS Code
 
@@ -124,7 +124,7 @@ chmod +x ./api_local.sh
 ./api_local.sh
 ```
 
-### API unit tests
+### API Unit Tests
 
 Unit tests are implemented with [Jest](https://jestjs.io/).
 
@@ -136,7 +136,7 @@ npm test
 
 or open the api directory in VS Code and run the tests with the test runner.
 
-### Integration tests
+### Integration Tests
 
 Integartion tests are implemented with [Jest](https://jestjs.io/).
 
@@ -148,9 +148,9 @@ npm test
 
 or open the integration_tests directory in VS Code and run the tests with the test runner.
 
-### Running scenarios
+## Training Scenarios
 
-Load tests are implmented with [K6](https://k6.io/)
+Scenarios tests are implmented with [K6](https://k6.io/).
 
 Install [K6](https://grafana.com/docs/k6/latest/set-up/install-k6/). E.g.
 
@@ -163,31 +163,27 @@ choco install k6
 ...
 ```
 
-Execute the following command to run the load tests
+Scenario is in the `scenarios` directory. Scenarios build on each other, so start from the first scenario.
+
+[training-scenarios](https://github.com/ttu/securing-web-api/tree/training-scenarios) branch contains a starting point for the scenarios.
+
+```sh
+git checkout training-scenarios
+```
+
+First scenario has only a single instance of the API and a database. Start the infrastructure with Docker Compose.
+
+```sh
+docker compose up
+```
+
+Execute the following command to run the scenario:
 
 ```sh
 k6 run scenarios/scenario_1.js
 ```
 
-## Branch for scenarios
-
-[scenarios](https://github.com/ttu/securing-web-api/tree/scenarios) branch contains a starting point for the scenarios.
-
-```sh
-git checkout scenarios
-```
-
-If using VS Code to run the project, edit from `task.json` `docker compose up`-task to match used setup.
-
-```json
-"command": "docker compose up -d db cache",
-```
-
-or
-
-```json
-"command": "docker compose up -d db",
-```
+NOTE: If you are using VS Code to run the API, modify the command in `tasks.json` that starts the DB and Cache to docker `compose up -d db`, as the cache is not part of the first scenario.
 
 ## Docker Compose commands
 
