@@ -2,7 +2,7 @@ const request = require('supertest');
 
 const CDN_URL = 'http://localhost:80';
 
-describe('Integration Test via Load Balancer', () => {
+describe('Static File Integration Tests', () => {
   it('GET static - CDN local', async () => {
     const res = await request(CDN_URL).get('/static/index.html');
 

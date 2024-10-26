@@ -2,7 +2,7 @@ const request = require('supertest');
 
 const CDN_URL = 'http://localhost:80';
 
-describe('Integration Test via Load Balancer', () => {
+describe('API Integration Tests', () => {
   it('GET /products/details - should return a list of products', async () => {
     const res = await request(CDN_URL)
       .get('/api/products/details')
