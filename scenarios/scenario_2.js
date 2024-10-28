@@ -31,6 +31,7 @@ export const options = {
     scenario_customers: {
       executor: 'constant-vus',
       exec: 'products', // Function to be executed for scenario A
+      startTime: '0.5s', // wait for reports scenario to warm up the system
       vus: 200,
       duration: '30s',
     },

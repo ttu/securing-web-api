@@ -17,14 +17,16 @@ import { check, sleep } from 'k6';
 
 import { CDN_PORT, LB_PORT, API_PORT } from './server_config.js';
 
-const PORT = LB_PORT;
+const PORT = CDN_PORT;
 
 const BASE_URL = `http://localhost:${PORT}`;
 const ORDERS_URL = `${BASE_URL}/api/orders/`;
 
 export const options = {
-  vus: 300, // A number specifying the number of VUs to run concurrently.
-  duration: '20s', // A string specifying the total duration of the test run.
+  stages: [
+    { duration: '1s', target: 1 }, // warm-up
+    { duration: '20s', target: 300 },
+  ],
 };
 
 export default function () {
@@ -36,6 +38,11 @@ export default function () {
     },
   };
 
+  const res = http.get(ORDERS_URL, params);
+
+  check(res, { 'status is 200': (r) => r.status === 200 });
+
+  // Also possible to test with creating a new order endpoint
   // const randomProductId = Math.floor(Math.random() * 10) + 1;
   // const randomQuantity = Math.floor(Math.random() * 5) + 1;
 
@@ -43,9 +50,6 @@ export default function () {
   // const payload = JSON.stringify(order);
 
   // const res = http.post(ORDERS_URL, payload, params);
-  const res = http.get(ORDERS_URL, params);
 
-  check(res, { 'status is 200': (r) => r.status === 200 });
-
-  // sleep(5);
+  // check(res, { 'status is 201': (r) => r.status === 201 });
 }

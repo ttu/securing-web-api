@@ -14,7 +14,7 @@ import { check, sleep } from 'k6';
 
 import { CDN_PORT, LB_PORT, API_PORT } from './server_config.js';
 
-const PORT = CDN_PORT;
+const PORT = LB_PORT;
 
 const BASE_URL = `http://localhost:${PORT}`;
 const PRODUCTS_URL = `${BASE_URL}/api/products`;
@@ -23,8 +23,10 @@ const URLS = ['/details', '/prices', '/catalog/us', '/catalog/uk', '/catalog/de'
 const getRandomUrl = () => URLS[Math.floor(Math.random() * URLS.length)];
 
 export const options = {
-  vus: 300, // A number specifying the number of VUs to run concurrently.
-  duration: '20s', // A string specifying the total duration of the test run.
+  stages: [
+    { duration: '1s', target: 1 }, // warm-up
+    { duration: '20s', target: 300 },
+  ],
 };
 
 export default function () {
