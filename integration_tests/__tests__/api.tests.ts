@@ -58,7 +58,7 @@ describe('API Integration Tests', () => {
       .post('/api/orders')
       .set('Authorization', `Bearer ${customerid_token}`)
       .send(payload)
-      .expect(200);
+      .expect(201);
 
     expect(res.body).toBeTruthy();
   });

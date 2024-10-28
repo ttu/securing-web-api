@@ -34,8 +34,8 @@ router.post('/admin/prices', authMiddleware, async (req: Request, res: Response)
 
   // TODO: Middleware could convert the Date strings to Date objects
   const priceUpdateData = convertToProductPrice(priceData);
-  const result = await updatePrices(priceUpdateData);
-  return res.json(result);
+  await updatePrices(priceUpdateData);
+  return res.status(201);
 });
 
 router.get('/catalog/:country', async (req: Request, res: Response) => {

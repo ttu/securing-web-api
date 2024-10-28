@@ -23,5 +23,5 @@ router.post('/', authMiddleware, async (req: Request, res: Response) => {
   if (!hasValidOrderData(orderData)) return res.status(422).json({ error: 'Invalid order data.' });
 
   const order = await createOrder(userId, orderData);
-  return res.json(order);
+  return res.status(201).json(order);
 });

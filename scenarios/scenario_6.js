@@ -17,7 +17,7 @@ import { CDN_PORT, LB_PORT, API_PORT } from './server_config.js';
 const PORT = CDN_PORT;
 
 const BASE_URL = `http://localhost:${PORT}`;
-const API_URL = `${BASE_URL}/api/support/messages`;
+const MESSAGES_URL = `${BASE_URL}/api/support/messages`;
 
 export const options = {
   vus: 1, // A number specifying the number of VUs to run concurrently.
@@ -32,7 +32,7 @@ export default function () {
 
   const res = http.post(MESSAGES_URL, payload, params);
 
-  check(res, { 'status is 200': (r) => r.status === 200 });
+  check(res, { 'status is 201': (r) => r.status === 201 });
 
   sleep(5);
 }

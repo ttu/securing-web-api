@@ -21,7 +21,7 @@ describe('Support route', () => {
     const payload = { message: { message: 'Hello', sender: 'me@email.org' } };
 
     const res = await request(app).post('/api/support/messages').send(payload);
-    expect(res.status).toEqual(200);
+    expect(res.status).toEqual(201);
 
     expect(pool.query).toHaveBeenCalledWith(expect.any(String), [
       payload.message.message,

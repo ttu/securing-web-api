@@ -16,7 +16,7 @@ import { CDN_PORT, LB_PORT, API_PORT } from './server_config.js';
 const PORT = CDN_PORT;
 
 const BASE_URL = `http://localhost:${PORT}`;
-const API_URL = `${BASE_URL}/api/products/details`;
+const PRODUCTS_URL = `${BASE_URL}/api/products/details`;
 
 export const options = {
   vus: 1, // A number specifying the number of VUs to run concurrently.
@@ -35,9 +35,9 @@ export default function () {
   const order = { address: 'street 10', products: [{ id: 2, quantity: 1 }] };
   const payload = JSON.stringify(order);
 
-  const res = http.post(API_URL, payload, params);
+  const res = http.post(PRODUCTS_URL, payload, params);
 
-  check(res, { 'status is 200': (r) => r.status === 200 });
+  check(res, { 'status is 201': (r) => r.status === 201 });
 
   sleep(5);
 }

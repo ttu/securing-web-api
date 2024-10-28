@@ -29,7 +29,7 @@ router.post('/messages', async (req: Request, res: Response) => {
   // If sender has sent message in last x seconds, reject
   if (await rejectFromSender(message.sender)) {
     return res.status(429).json({ error: 'Too many requests' });
-    //return res.json({ status: 'ok' });
+    //return res.status(201).json({ status: 'ok' });
   }
 
   const ip = req.ip;
@@ -40,7 +40,7 @@ router.post('/messages', async (req: Request, res: Response) => {
 
   await addSenderToBlocked(message.sender);
 
-  return res.json({ status: 'ok' });
+  return res.status(201).json({ status: 'ok' });
 });
 
 const insertMessage = async (message: StoredMessage) => {
